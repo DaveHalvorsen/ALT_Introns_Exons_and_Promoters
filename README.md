@@ -4,7 +4,7 @@ Human telomeres are estimated to be 5,000 - 15,000 base pairs at birth (Sanders 
 #### Simple 1 Telomere Shortening Model
 Here's a simple mathematical model for one telomere:
 
-```{r}
+```r
 # These variables are the starting point. The starting telomere length is 5000. 50 bp are lost / division. 
 starting_length = 10000
 current_length <- starting_length
@@ -307,7 +307,7 @@ so I've decided to simplify the telomerase model to adding back the 48 bp lost H
 
 ![Harley_2008_box1b](/Assets/Harley_2008_box1b.jpg "Harley_2008_box1b")
 
-```{r}
+```r
 # How long till senescence if starting max is 10K AND maintaining telomere lengths of GM130B?
 # AND telomerase is periodically turned on? AND senescence checkpoints work.
 # Telomerase extends the shortest telomeres first (Harley 2008, Cristofari 2006)
@@ -341,7 +341,7 @@ while(above_five_thousand) {
 
 This is when telomerase is equal to the telomere shortening.
 
-```{r}
+```r
 # what about a cancer with telomerase always turned on?
 # telomerase + cells still have the trimming mechanism turned on
 # Pickett 2009  HT1090 +TEL stuck at 7.5 kb, HeLa stuck at 4.5 kb
@@ -687,7 +687,7 @@ U2OS_ATRX_DNAstring <- DNAString(paste(toupper(U2OS_ATRX_Characters), collapse =
 
 #### Sequence Alignment of WT ATRX to Mutant ATRX
 The R msa package can't handle the full length of the ATRX gene, so I shortened it down to 400 nucleotides.
-```{r}
+```r
 # limit it to 400 ... that's more than enough to see exon absence
 U2OS_ATRX_DNA_Short <- U2OS_ATRX_DNAstring[1:400]
 WT_hATRX_DNA_Short <- toupper(WT_hATRX_Gene_Nucleotides[1:400])
