@@ -1,152 +1,289 @@
 # Telomeres Shorten with Age
-Human telomeres are estimated to be 5,000 - 15,000 base pairs at birth (Sanders 2013). The end replication problem shortens telomeres by approximately 50 bp with each round of cell division (Proctor 2002). 
+Human telomeres are estimated to be 5,000 - 15,000 base pairs at birth (Sanders 2013). The end replication problem shortens telomeres by approximately 50 bp with each round of cell division (Proctor 2002, Suda 2002). 
 
 #### Simple 1 Telomere Shortening Model
 Here's a simple mathematical model for one telomere:
 
-```python
-#!/usr/bin/env python
-starting_length = 15000
-division_loss = 50
-current_length = starting_length
-current_division_number = 1
-while current_length > 0:
-    print "Telomere Length is " + str(current_length) + " bp" + " after " + str(current_division_number) + " divisions."
-    current_length = current_length - 50
-    current_division_number += 1
-print "The telomere is gone!"
+```{r}
+# These variables are the starting point. The starting telomere length is 5000. 50 bp are lost / division. 
+starting_length = 10000
+current_length <- starting_length
+bp_loss_per_division = 50
+current_division <- 0
+number_of_cells <- 1
+# This simplified model divides until there are no telomeres left. We will shortly see why this is not the case. 
+while(current_length > 0) {
+  # There will be 200 divisions for this case. I don't want to overwhelm the screen, so I'm limiting to #1 and #s divisible by 20.
+  if(current_division == 0) {
+    print(paste("There are ", number_of_cells, " cells after ", current_division, " doublings with a telomere length of ", current_length, " bp."))
+  }
+  else if (current_division %% 20 == 0) {
+    print(paste("There are ", number_of_cells, " cells after ", current_division, " doublings with a telomere length of ", current_length, " bp."))
+  }
+  # The cells double, the telomere length is shortened by 50 bp, and the new division is initiated.
+  number_of_cells <- number_of_cells * 2
+  current_length <- current_length - 50
+  current_division <- current_division + 1
+}
+# Here's the final situation.
+print(paste("There are ", number_of_cells, " cells after ", current_division, " doublings with a telomere length of ", current_length, " bp."))
 ```
 
 Here are the last couple of lines of output:
 
 ```sh
-Telomere Length is 350 bp after 294 divisions.
-Telomere Length is 300 bp after 295 divisions.
-Telomere Length is 250 bp after 296 divisions.
-Telomere Length is 200 bp after 297 divisions.
-Telomere Length is 150 bp after 298 divisions.
-Telomere Length is 100 bp after 299 divisions.
-Telomere Length is 50 bp after 300 divisions.
-The telomere is gone!
+[1] "There are  1  cells after  0  doublings with a telomere length of  10000  bp."
+[1] "There are  1048576  cells after  20  doublings with a telomere length of  9000  bp."
+[1] "There are  1099511627776  cells after  40  doublings with a telomere length of  8000  bp."
+[1] "There are  1152921504606846976  cells after  60  doublings with a telomere length of  7000  bp."
+[1] "There are  1.20892581961463e+24  cells after  80  doublings with a telomere length of  6000  bp."
+[1] "There are  1.26765060022823e+30  cells after  100  doublings with a telomere length of  5000  bp."
+[1] "There are  1.32922799578492e+36  cells after  120  doublings with a telomere length of  4000  bp."
+[1] "There are  1.39379657490816e+42  cells after  140  doublings with a telomere length of  3000  bp."
+[1] "There are  1.4615016373309e+48  cells after  160  doublings with a telomere length of  2000  bp."
+[1] "There are  1.53249554086589e+54  cells after  180  doublings with a telomere length of  1000  bp."
+[1] "There are  1.60693804425899e+60  cells after  200  doublings with a telomere length of  0  bp."
 ```
 
 #### Simple 1 Telomere Model & Damage Checkpoint
-The situation is more complicated than that model. A DNA damage checkpoint will be triggered aroudn 5k bp and there will be massive genomic instability and cell death at around 3k bp (Harley 2008). Here's that slightly more complicated model:
+The situation is more complicated than that model. A DNA damage checkpoint will be triggered at around 5k bp. If cell cycle checkpoints are intact, the cell will senesce at around 5 kb. If oncogenic changes have occurred, the cell will divide until around 3k bp. There will be genomic instability, which will lead to more mutations and eventual cell death UNLESS a telomere maintenance mechanism stabilizes the telomeres (Harley 2008, Shay 2012). 
 
-```python
-#!/usr/bin/env python
-starting_length = 15000
-division_loss = 50
-current_length = starting_length
-current_division_number = 1
+![Harley_2008_Box1a](/Assets/Harley_2008_Box1a.jpg "Harley_2008_Box1a")
 
-while current_length > 0:
-    if current_length > 5000:
-        print "Telomere Length is " + str(current_length) + " bp" + " after " + str(current_division_number) + " divisions."
-    elif current_length > 3000:
-        print "p53-dependent arrest triggered @ " + str(current_length) + " bp" + " after " + str(current_division_number) + " divisions."
-        print "BUT, this cell has transforming mutations! It continues to divide!"
-    elif current_length > 0:
-        print "Genomic instability is causing new mutations at " + str(current_length) + " bp" + " after " + str(current_division_number) + " divisions."
-        print "Death is inevitable, UNLESS telomere length is stabilized!"
-    else:
-        print "David is a bad programmer, lol"
-    current_length = current_length - 50
-    current_division_number += 1
-print "The telomere is gone!"
-```
 
-Here are the last couple of lines of output:
-
-```sh
-Genomic instability is causing new mutations at 200 bp after 297 divisions.
-Death is inevitable, UNLESS telomere length is stabilized!
-Genomic instability is causing new mutations at 150 bp after 298 divisions.
-Death is inevitable, UNLESS telomere length is stabilized!
-Genomic instability is causing new mutations at 100 bp after 299 divisions.
-Death is inevitable, UNLESS telomere length is stabilized!
-Genomic instability is causing new mutations at 50 bp after 300 divisions.
-Death is inevitable, UNLESS telomere length is stabilized!
-The telomere is gone!
-```
-
-#### 92 Telomere Shortening Model
-There are 92 telomeres / human cell. That's cause there are 23 chromosomes X 2 (paired) X 2 telomeres/chrosome = 92. A DNA damage checkpoint will get triggered by the shortest telomere (Harley 2008). So a better mathematical model would take into account the distribution of telomere lengths and each individual telomere's shortening. NOTE: THE RANGE OF TELOMERE LENGTHS ISN'T NECESSARILY WHAT I HAVE DEPICTED HERE. I NEED TO TAKE SUDA 2002 INTO ACCOUNT IN A FUTURE UPDATE. My intuition is that the range I've used here may be closer to the range of telomere lengths in ALT, but I need to do the math to be sure ... See table 1 of Suda 2002 for the estimated telomere lengths of chromosomes 1-22 for the GM130B cell line. 
-
-GM130B is a spontaneously immortalized lymphoblast line from a male human. It's probably TEL+ because it's of a blood stem cell lineage (I explain this thinking in a later section), but I wasn't able to answer that conclusively. The search phrase of 'GM130B lymphoblast "telomerase"' is problematic cause there is an antibody called GM130 antibody called gm130 https://www.abcam.com/gm130-antibody-ep892y-cis-golgi-marker-ab52649.html. I also tried 'GM130B lymphoblast "telomerase" -antibody', BUT there's a Rab1b and Rab1-binding protein called GM130. So I tried 'GM130B lymphoblast "telomerase" -antibody -golgi' and that didn't have any useful results. 
-
-```python
-#!/usr/bin/env python
-import random
-shortest = 5000
-longest = 15000
-num_of_telomeres = 92
-telomeres_longer_than_3000 = True
-current_division_number = 1
-
-def initialze_92_telomere_lengths(shortest, longest, num_of_telomeres):
-    telomere_length_list = []
-    for j in range(num_of_telomeres):
-        telomere_length_list.append(random.randint(shortest, longest))
-    return telomere_length_list
-#print "This is the initial list of telomere lengths: "
-initial_list_of_telomere_lengths = initialze_92_telomere_lengths(shortest, longest, num_of_telomeres)
-#print(initial_list_of_telomere_lengths)
-current_list_of_telomere_lengths = initial_list_of_telomere_lengths
-
-while telomeres_longer_than_3000 == True:
-    print "It is division # " + str(current_division_number)
-    print "This is the current list of telomere lengths: "
-    print current_list_of_telomere_lengths
-
-    current_telomere_number = 1
-    for telomere in current_list_of_telomere_lengths:
-        if telomere <= 5000 and telomere > 3000:
-            print "Telomere number " + str(current_telomere_number) + " is only " + str(telomere) + " bp long."
-            print "p53-mediated senescence would be triggered, BUT p53 is mutated!"
-        elif telomere <= 3000:
-            print "Telomere number " + str(current_telomere_number) + " is only " + str(telomere) + " bp long."
-            print "There is massive genomic instability and cell death!"
-            telomeres_longer_than_3000 = False
-            break
-        current_telomere_number += 1
-
-    current_list_of_telomere_lengths = [telomere-50 for telomere in current_list_of_telomere_lengths]
-    current_division_number += 1
-```
-
-Here are the last couple of lines of output:
-
-```sh
-It is division # 44
-This is the current list of telomere lengths: 
-[9767, 10391, 3833, 4927, 8548, 3772, 8590, 6477, 12382, 6371, 11163, 8084, 9051, 6639, 5095, 3255, 9457, 12712, 9600, 4238, 5625, 11407, 12178, 8371, 9155, 2987, 8131, 8252, 4487, 10558, 10815, 5485, 3111, 8113, 8712, 7742, 11029, 8390, 5037, 5735, 9947, 5511, 10571, 11775, 5692, 12405, 3322, 4462, 6719, 11184, 8716, 8806, 11079, 8928, 7915, 10267, 6327, 3418, 6933, 6367, 3025, 10936, 9219, 12174, 3180, 11997, 9131, 7859, 7225, 8068, 10717, 12644, 12291, 3080, 12679, 7654, 3982, 7852, 5535, 10338, 11876, 11217, 5231, 9777, 3649, 6365, 6236, 7214, 7799, 8292, 3725, 7978]
-Telomere number 3 is only 3833 bp long.
-p53-mediated senescence would be triggered, BUT p53 is mutated!
-Telomere number 4 is only 4927 bp long.
-p53-mediated senescence would be triggered, BUT p53 is mutated!
-Telomere number 6 is only 3772 bp long.
-p53-mediated senescence would be triggered, BUT p53 is mutated!
-Telomere number 16 is only 3255 bp long.
-p53-mediated senescence would be triggered, BUT p53 is mutated!
-Telomere number 20 is only 4238 bp long.
-p53-mediated senescence would be triggered, BUT p53 is mutated!
-Telomere number 26 is only 2987 bp long.
-There is massive genomic instability and cell death!
-```
-
-It's hard to picture that list of telomere lengths, so I've made a barplot in R. Note that the red line is for the 5 kb p53-mediated senescence and that the black line is the 3 kbp cell crisis point (Harley 2008). Note that the telomere lengths from the Python code don't match the ones I used for the R code. The R code #s are from an earlier attempt. You could use the code from the Telomere_Math_Models folder to replicate this stuff.
+Here's that slightly more complicated model:
 
 ```r
-telomere_lengths <- list(5583, 12162, 6389, 9970, 10351, 7970, 10257, 10570, 11226, 10003, 12418, 5145, 9841, 8593, 3683, 9251, 7884, 5070, 9813, 5316, 6170, 5067, 6420, 10141, 3465, 6754, 11450, 5883, 11551, 7127, 7170, 11200, 7788, 7079, 5492, 11992, 8606, 11573, 4600, 6108, 9872, 9659, 7811, 8597, 6907, 3161, 5425, 7053, 5638, 5540, 12154, 7962, 11386, 5722, 6675, 11306, 2967, 11208, 10478, 8560, 12603, 7522, 10607, 4044, 6816, 4172, 5127, 8953, 7438, 9860, 11952, 4076, 11505, 8247, 9124, 6027, 12625, 3031, 8991, 4777, 5177, 9458, 5578, 7392, 6019, 4637, 4912, 4458, 11358, 5594, 12343, 3874)
-telomere_numbers <- 1:92
-typeof(telomere_lengths[1])
-test <- barplot(as.numeric(telomere_lengths), main="Telomere Lengths", xlab="Telomere Number", ylab="Telomere Length (bp)", ylim = c(0,15000))
+# These variables are the starting point. The starting telomere length is 5000. 50 bp are lost / division. 
+starting_length = 10000
+current_length <- starting_length
+bp_loss_per_division = 50
+current_division <- 0
+number_of_cells <- 1
+mutations <- 0
+dividing <- TRUE
+# This simple model divides until senescence is reached. 
+while(dividing) {
+  # There will be 200 divisions for this case. I don't want to overwhelm the screen, so I'm limiting to #1 and #s divisible by 20.
+  if(current_division == 0) {
+    print(paste("There is one ", number_of_cells, " cell with a telomere length of ", current_length, " bp and ", mutations, " mutations."))
+  }
+  else if (current_division %% 20 == 0) {
+    # Shay 2012 model uses 1 mutation / 20 divisions 
+    mutations <- mutations + 1
+    print(paste("There are ", number_of_cells, " cells after ", current_division, " doublings with a telomere length of ", current_length, " bp and ", mutations, " mutations."))
+  }
+  # cells senesce around a telomere length of 5000 bp Harley 2008 
+  else if (current_length < 5000) {
+    dividing <- FALSE
+    print("This cell has senesced at a telomere length of 5,000 bp")
+  }
+  # The cells double, the telomere length is shortened by 50 bp, and the new division is initiated.
+  number_of_cells <- number_of_cells * 2
+  current_length <- current_length - 50
+  current_division <- current_division + 1
+}
+```
+
+
+Here are the last couple of lines of output:
+
+```sh
+[1] "There is one  1  cell with a telomere length of  10000  bp and  0  mutations."
+[1] "There are  1048576  cells after  20  doublings with a telomere length of  9000  bp and  1  mutations."
+[1] "There are  1099511627776  cells after  40  doublings with a telomere length of  8000  bp and  2  mutations."
+[1] "There are  1152921504606846976  cells after  60  doublings with a telomere length of  7000  bp and  3  mutations."
+[1] "There are  1.20892581961463e+24  cells after  80  doublings with a telomere length of  6000  bp and  4  mutations."
+[1] "There are  1.26765060022823e+30  cells after  100  doublings with a telomere length of  5000  bp and  5  mutations."
+[1] "This cell has senesced at a telomere length of 5,000 bp"
+```
+
+In the previous model we saw that 5 mutations occurred over 100 population doublings. I based this on an assumption from one of Jerry Shay's oncogenic models. Cellular senescence stopped the cells in my current model from developing more mutations. It is thought that 8-15 mutations are enough for a cell to become cancerous (Shay 2012).
+
+![Shay_2012_Mutations_Cancer](/Assets/Shay_2012_Mutations_Cancer.jpg "Shay_2012_Mutations_Cancer")
+
+
+#### 23 Telomere Model
+But there isn't just one telomere! Human cells have 23 pairs of chromosomes, so lets limit the view to the total telomere length for 23 human chromosomes. We will dive into p and q arms in a later section. It's been reported that the DNA damage checkpoint will be triggered by the shortest telomere (Harley 2008) ... so you should be questioning the validity of this model! Don't worry, it's about to get a lot more complicated :) 
+
+```r
+# picking a length of 6000 bp for each chromosome
+starting_lengths = as.list(rep(6000, 23))
+chromosome_names <- c((1:22), "X")
+barplot(as.numeric(starting_lengths), names.arg=chromosome_names, las=2, main ="Telomere Lengths", xlab="Chromosome", ylab="Telomere Lenghts (bp)", ylim=c(0,7000))
 abline(h=5000, col="red", lwd=3)
 abline(h=3000, col="black", lwd=3)
 ```
 
-![Telomere_Shortening_Bar_Graph](/Assets/Telomere_Shortening_Bar_Graph.jpg "Telomere_Shortening_Bar_Graph")
+![23_Chromosome_Simple_Lengths](/Assets/23_Chromosome_Simple_Lengths.jpg "23_Chromosome_Simple_Lengths")
+
+#### Telomere Length is Linearly Related to Chromosome Length
+A DNA damage checkpoint will get triggered by the shortest telomere (Harley 2008). So a better mathematical model would take into account the distribution of telomere lengths and each individual telomere's shortening. See table 1 of Suda 2002 for the estimated telomere lengths of chromosomes 1-22 for the GM130B cell line. It is a telomerase positive (TEL+) spontaneously immortalized lymphoblast line from a male human. 
+
+```r
+# Suda 2002 Table 1 chromosome size (megabases) telomere length (bp).
+chromosome_lengths <- c(246, 202, 193, 184, 173, 160, 146, 125, 110, 103, 100, 93, 85, 81, 62, 67, 48, 52)
+telomere_lengths <- c(5681, 4987, 5018, 4589, 4302, 4127, 3922, 3708, 4045, 3624, 3460, 3109, 3077, 3007, 2750, 2913, 2735, 2806)
+# these should be 18 long cause that's how many rows Suda 2002 has
+length(chromosome_lengths)
+length(telomere_lengths)
+# plot the relationship
+plot(chromosome_lengths, telomere_lengths, main ="Telomere and Chromosome Lengths are Linearly Related", xlab="Chromosome Lengths (Mb)", ylab="Telomere Lenghts (bp)")
+```
+
+![telomere_chromosome_linear](/Assets/telomere_chromosome_linear.jpg "telomere_chromosome_linear")
+
+Suda 2002 didn't determine the lengths of the sex chromosomes. I want to create a formula to estimate the telomere lengths of the sex chromosomes. Here's how I did a linear regression in R:
+
+```r
+# this is a linear regression of the variables
+lm(telomere_lengths ~ chromosome_lengths)
+```
+
+```sh
+Call:
+lm(formula = telomere_lengths ~ chromosome_lengths)
+
+Coefficients:
+       (Intercept)  chromosome_lengths  
+           1920.25               14.93  
+```
+
+Here's that same initial plot, but I have included the line of fit:
+
+```{r}
+# here I'm using abline to add the line of regression
+plot(chromosome_lengths, telomere_lengths, main ="Telomere Lengths are Linearly Related to Chromosome Lengths", xlab="Chromosome Lengths (Mb)", ylab="Telomere Lenghts (bp)")
+abline(1920.25, 14.93)
+```
+
+![line_of_fit_chromosome_telomere](/Assets/line_of_fit_chromosome_telomere.jpg "line_of_fit_chromosome_telomere")
+
+```r
+# I'm assuming that this relationship will hold true for chromosomes X + Y
+# AND that p/q is 1 in telomerase (Perrem 2001) 
+# Morton 1991 Parameters has lengths of each chromosome, BUT, keep in mind that the chromosome Mb are slightly different from Suda 2002
+chromosome_X_length <- 14.93*164 + 1920.25
+chromosome_Y_length <- 14.93*59 + 1920.25
+# Suda 2002 used a FACS technique that couldn't differentiate these chromosomes 1=2, 9=10=11=12
+# I have assumed that their lengths are close enough (cause they're chromosomes are close in length)
+chromosome_1_length <- telomere_lengths[1]
+chromosome_2_length <- telomere_lengths[1]
+chromosome_9_length <- telomere_lengths[8]
+chromosome_10_length <- telomere_lengths[8]
+chromosome_11_length <-telomere_lengths[8]
+chromosome_12_length <- telomere_lengths[8]
+# this could've been done more delicately, lol
+# here's the complete list of lengths for autosomal chromosomes 1-22 and sex chromosomes x and y
+chrom_1 <- chromosome_1_length
+chrom_2 <- chromosome_2_length
+chrom_3 <- telomere_lengths[2]
+chrom_4 <- telomere_lengths[3]
+chrom_5 <- telomere_lengths[4]
+chrom_6 <- telomere_lengths[5]
+chrom_7 <- telomere_lengths[6]
+chrom_8 <- telomere_lengths[7]
+chrom_9 <- chromosome_9_length
+chrom_10 <- chromosome_10_length
+chrom_11 <- chromosome_11_length
+chrom_12 <- chromosome_12_length
+chrom_13 <- telomere_lengths[9]
+chrom_14 <- telomere_lengths[10]
+chrom_15 <- telomere_lengths[11]
+chrom_16 <- telomere_lengths[12]
+chrom_17 <- telomere_lengths[13]
+chrom_18 <- telomere_lengths[14]
+chrom_19 <- telomere_lengths[15]
+chrom_20 <- telomere_lengths[16]
+chrom_21 <- telomere_lengths[17]
+chrom_22 <- telomere_lengths[18]
+chrom_X <- chromosome_X_length
+chrom_Y <- chromosome_Y_length
+# I should've just gone with chromosome X OR Y cause I'm only using one representative of the chromosomes 1-22
+# BUT, I like how the bar graph looks this way :)
+telomerase_chromosome_lengths <- c(chrom_1, chrom_2, chrom_3, chrom_4, chrom_5, chrom_6, chrom_7, chrom_8, chrom_9, chrom_10, chrom_11, chrom_12,chrom_13,chrom_14,chrom_15,chrom_16,chrom_17,chrom_18,chrom_19,chrom_20, chrom_21, chrom_22, chrom_X, chrom_Y)
+# here are the labels for the chromosomes that I'm using 
+telomerase_chromosome_names <- c((1:22), "X", "Y")
+# and finally the barplot
+barplot(telomerase_chromosome_lengths, names.arg=telomerase_chromosome_names, las=2, main ="GM130B Telomere Lengths", xlab="Chromosome", ylab="Telomere Lenghts (bp)", ylim=c(0,6000))
+```
+
+![GM130B_Telomere_Lengths](/Assets/GM130B_Telomere_Lengths.jpg "GM130B_Telomere_Lengths")
+
+Suda 2002 estimated that the GM130B cell line could divide somewhere between 15 and 42 times. Here's how they arrived at that conclusion:
+
+1) Identify the shortest and average telomere lengths
+	* chromosome 21 is 2735 bp
+2) Identify the average telomere lengths
+	* They claim it's 3998 bp (It's actually 3770 bp ... check their math)
+3) Subtract the 2000 bp subtelomeric region
+	* chromosome 21 is down to 735 bp and the average is down to 1998 bp
+4) Divide those bp numbers by the bp lost/division
+	* chromosome 21 735/48 = 15.3 PD & 1998/48=41.6 PD
+
+It's well-established nowadays that the shortest telomere is what determines when cellular senescence will start. Here's a model of the short telomere cellular senescence model from Suda 2002:
+
+```r
+# this is the condition that, while TRUE, runs the model
+above_zero <- TRUE
+division_number <- 0
+# assuming subtelomere is 2000 bp
+telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths - 2000
+while(above_zero) {
+  barplot(telomerase_chromosome_lengths_play, names.arg=telomerase_chromosome_names, las=2, main = paste("GM130B Senescence After ", division_number, " Divisions"), xlab="Chromosome", ylab="Telomere Lenghts (bp)", ylim=c(0,3000))
+  telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_play - 48
+  division_number <- division_number + 1
+  if(sum((telomerase_chromosome_lengths_play) < 0) > 0) {
+    above_zero <- FALSE
+  }
+}
+```
+
+Here's that final senescent state:
+
+![GM130B_Senesces_After_15PD](/Assets/GM130B_Senesces_After_15PD.jpg "GM130B_Senesces_After_15PD")
+
+#### Modeling WT Telomere Shortening
+The Suda 2002 is a very interesting case with an immortalized cell. This is my attempt to model the initial telomere length state for a human at birth and follow it through until senescence. Note that I'm using the Harley 2008 5 kb red line of senescence and the black 3kb line of crisis.
+
+```r
+# I wanna make sure that I don't change the length list that I created earlier
+telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths
+# the range of telomere lengths from GM130B is 2946
+max(telomerase_chromosome_lengths_play) - min(telomerase_chromosome_lengths_play)
+# scaling that range up to 10000 bp with multiplication yields a range of 5185
+telomerase_chromosome_lengths_START <- telomerase_chromosome_lengths * 10000/max(telomerase_chromosome_lengths)
+max(telomerase_chromosome_lengths_START) - min(telomerase_chromosome_lengths_START)
+# 5185 bp seemed a bit high for the range (just intuition), so I used an additive instead
+telomerase_chromosome_lengths_START <- telomerase_chromosome_lengths + 10000 - max(telomerase_chromosome_lengths)
+max(telomerase_chromosome_lengths_START) - min(telomerase_chromosome_lengths_START)
+
+# How long till senescence if starting max is 10K AND maintaining telomere length range of GM130B?
+above_five_thousand <- TRUE
+division_number <- 0
+telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_START
+while(above_five_thousand) {
+  #print(telomerase_chromosome_lengths_play)
+  #print(division_number)
+  barplot(telomerase_chromosome_lengths_play, names.arg=telomerase_chromosome_names, las=2, main = paste("hCell Telomere Shortening After ", division_number, " Divisions"), xlab="Chromosome", ylab="Telomere Lenghts (bp)", ylim=c(0,10000))
+  abline(h=5000, col="red", lwd=3)
+  abline(h=3000, col="black", lwd=3)
+  division_number <- division_number + 1
+  telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_play - 48
+  if(sum(telomerase_chromosome_lengths_play < 5000) > 0) {
+    above_five_thousand <- FALSE
+  }
+}
+```
+
+Here's the initial state:
+![hCell_Shortening_After_0_Divisions](/Assets/hCell_Shortening_After_0_Divisions.jpg "hCell_Shortening_After_0_Divisions")
+
+This model divided 42 times before senescing.
+
+![hCell_Shortening_After_42_Divisions](/Assets/hCell_Shortening_After_42_Divisions.jpg "hCell_Shortening_After_42_Divisions")
+
+
 
 # Telomere Maintenance Mechanism (TMM) Selection
 The selection of TMM seems to mainly depend upon telomerase chromatin compaction and mutations in ATRX & p53 (Gocha 2013). 
@@ -166,61 +303,76 @@ Telomerase overexpression might have an upper limit of 0.8 kb/division ... I'm n
 3. How do you model 3-D interactions?
 etc.,
 
-so I've decided to simplify the telomerase model to the number of times that telomerase can add 6bp of telomere to the chromosome end. Yes, it's a spherical cow kind of model, but what could I do better? Seriously, message me if you've got an idea, cause I'll try it out :) The telomere shortening model from above shortens 50 bp/ telomere for the 92 telomeres, so that's 4600 bp that is lost per division. 4600/6 = 766.6, so 6*676 bp being added per cell division would be cellular immortality. Anything lower-ish will eventually senesce.  This code is mostly the same as the last bit of telomere shortening code. I won't waste space witht he whole code again (see the Telomere_Math_Models folder). All I did was nest this while loop inside the first while loop (the one that shortens the telomeres). 
+so I've decided to simplify the telomerase model to adding back the 48 bp lost HALF of the time. Harley 2008 box 1b (below) was the inspiration of this idea, but keep in mind that things are WAY more complicated than this. Yes, it's a spherical cow kind of model, but what could I do better? Seriously, message me if you've got an idea, cause I'll try it out :) 
 
-```python
-    telomerase_bp_added_per_division = 0
-    telomere_bp_left_to_add = telomerase_bp_added_per_division
-    while telomere_bp_left_to_add > 0:
-        # get index for shortest telomere
-        shortest_telomere_index = current_list_of_telomere_lengths.index(min(current_list_of_telomere_lengths))
-        # get length of shortest telomere
-        length_of_shortest_telomere = current_list_of_telomere_lengths[shortest_telomere_index]
-        # add 6bp to shortest telomere
-        new_length_of_shortest_telomere = current_list_of_telomere_lengths[shortest_telomere_index] + 6
-        # change list entry at index # to new telomere length
-        current_list_of_telomere_lengths[shortest_telomere_index]=new_length_of_shortest_telomere
-        # less telomerase left
-        telomere_bp_left_to_add = telomere_bp_left_to_add - 6
+![Harley_2008_box1b](/Assets/Harley_2008_box1b.jpg "Harley_2008_box1b")
+
+```{r}
+# How long till senescence if starting max is 10K AND maintaining telomere lengths of GM130B?
+# AND telomerase is periodically turned on? AND senescence checkpoints work.
+# Telomerase extends the shortest telomeres first (Harley 2008, Cristofari 2006)
+# I'm not worried about that when telomere shortening overpowers telomere lengthening
+above_five_thousand <- TRUE
+division_number <- 0
+telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_START
+while(above_five_thousand) {
+  #print(telomerase_chromosome_lengths_play)
+  #print(division_number)
+  barplot(telomerase_chromosome_lengths_play, names.arg=telomerase_chromosome_names, las=2, main = paste("Trasient Telomerase Telomere Shortening After ", division_number, " Divisions"), xlab="Chromosome", ylab="Telomere Lenghts (bp)", ylim=c(0,10000))
+  abline(h=5000, col="red", lwd=3)
+  abline(h=3000, col="black", lwd=3)
+  division_number <- division_number + 1
+  telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_play - 48
+  if(division_number %% 2){
+    telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_play + 48
+  }
+  if(sum(telomerase_chromosome_lengths_play < 5000) > 0) {
+    above_five_thousand <- FALSE
+  }
+  # this indicates immortality and I don't want a runaway while loop
+  if(division_number > 100) {
+    break
+  }
+}
 ```
 
-Recall that the default setting of 0 for telomerase_bp_added_per_division. Will senesce after around 45 divisions.
+![Transient_Telomerase_HSC](/Assets/Transient_Telomerase_HSC.jpg "Transient_Telomerase_HSC")
 
-```sh
-It is division # 49
-This is the current list of telomere lengths: 
-[7170, 12368, 5720, 3645, 5542, 12080, 5087, 11904, 11511, 6398, 3277, 10844, 2991, 7629, 8780, 6831, 6536, 7344, 3558, 7683, 3835, 8217, 6984, 8453, 5396, 4522, 4119, 12548, 9305, 9545, 9008, 7613, 9990, 12347, 7924, 9842, 5634, 5140, 3076, 9589, 9017, 6847, 12525, 7593, 7447, 8598, 7191, 5782, 8152, 12464, 5269, 6994, 3567, 7599, 11842, 4033, 5184, 10556, 5757, 7054, 11279, 6642, 11565, 10701, 11997, 3534, 3355, 11623, 10173, 8881, 3085, 11311, 6307, 8302, 11064, 10363, 3198, 9361, 3659, 4629, 6694, 12477, 3731, 3275, 10302, 7461, 7445, 5461, 11859, 9980, 8931, 11078]
-Telomere number 4 is only 3645 bp long.
-p53-mediated senescence would be triggered, BUT p53 is mutated!
-Telomere number 11 is only 3277 bp long.
-p53-mediated senescence would be triggered, BUT p53 is mutated!
-Telomere number 13 is only 2991 bp long.
-There is massive genomic instability and cell death!
+
+This is when telomerase is equal to the telomere shortening.
+
+```{r}
+# what about a cancer with telomerase always turned on?
+# telomerase + cells still have the trimming mechanism turned on
+# Pickett 2009  HT1090 +TEL stuck at 7.5 kb, HeLa stuck at 4.5 kb
+# overexpression of hTER HeLa 8 kb, HT1080 hTR increasingly heteogenous 9.4 kb
+# I could make a complicated function to make sure things stay matched, but you get the idea ...
+# I'll just make shortening equal to lengthening
+above_five_thousand <- TRUE
+division_number <- 0
+telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_START
+while(above_five_thousand) {
+  #print(telomerase_chromosome_lengths_play)
+  #print(division_number)
+  barplot(telomerase_chromosome_lengths_play, names.arg=telomerase_chromosome_names, las=2, main = paste("Immortalized Telomerase Telomere Shortening After ", division_number, " Divisions"), xlab="Chromosome", ylab="Telomere Lenghts (bp)", ylim=c(0,10000))
+  abline(h=5000, col="red", lwd=3)
+  abline(h=3000, col="black", lwd=3)
+  division_number <- division_number + 1
+  telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_play - 48
+  telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_play + 48
+  if(sum(telomerase_chromosome_lengths_play < 5000) > 0) {
+    above_five_thousand <- FALSE
+  }
+  # this indicates immortality and I don't want a runaway while loop
+  if(division_number > 300) {
+    break
+  }
+}
 ```
 
-This is what happend when I left it alone for a little while with a telomerase_bp_added_per_division = 6*767. It got up to division number 18,601! That's what people mean when they talk about cancer "immortality."
+Note that the code breaks at 300 population doublings because it'd go on forever otherwise. Telomerase does seem to have an upper limit for the telomere lengths that are possible. Picket 2009 found that HeLa and HT1080 stayed at 4.5 and 7 kbp under normal telomerase conditions, BUT that they went up to 8 and 9.4 kbp with hTR overexpression. There appears to be a natural telomere trimming mechanism under normal conditions (Picket 2009).
 
-```sh
-It is division # 18601
-This is the current list of telomere lengths: 
-[10252, 10250, 10248, 10252, 10251, 10250, 10252, 10248, 10249, 10250, 10249, 10251, 10249, 10250, 10249, 10252, 10248, 10251, 10250, 10248, 10250, 10248, 10251, 10247, 10248, 10252, 10247, 10252, 10250, 10247, 10247, 10249, 10252, 10248, 10247, 10252, 10250, 10251, 10251, 10248, 10246, 10248, 10251, 10246, 10250, 10249, 10247, 10247, 10246, 10251, 10249, 10250, 10251, 10246, 10248, 10247, 10251, 10248, 10249, 10250, 10246, 10248, 10246, 10248, 10250, 10248, 10251, 10249, 10251, 10246, 10250, 10251, 10247, 10250, 10247, 10247, 10246, 10251, 10251, 10251, 10250, 10248, 10246, 10249, 10249, 10249, 10246, 10246, 10250, 10246, 10250, 10249]
-```
-
-Here's half of that number of telomerase hexamers with telomerase_bp_added_per_division = 6*383.
-
-```sh
-It is division # 264
-This is the current list of telomere lengths: 
-[2992, 2994, 2995, 2991, 2992, 2993, 2992, 2990, 2991, 2995, 2993, 2992, 2991, 2994, 2995, 2991, 2990, 2990, 2991, 2994, 2992, 2992, 2994, 2993, 2994, 2994, 2993, 2992, 2995, 2992, 2992, 2994, 2990, 2990, 2993, 2995, 2993, 2989, 2994, 2994, 2993, 2993, 2990, 2994, 2990, 2989, 2992, 2991, 2991, 2990, 2991, 2993, 2994, 2989, 2989, 2992, 2994, 2991, 2991, 2989, 2994, 2991, 2992, 2993, 2989, 2989, 2992, 2989, 2993, 2992, 2992, 2991, 2989, 2993, 2991, 2989, 2993, 2991, 2990, 2992, 2990, 2992, 2992, 2991, 2993, 2989, 2992, 2993, 2991, 2994, 2989, 2992]
-Telomere number 1 is only 2992 bp long.
-There is massive genomic instability and cell death!
-```
-
-Remember the wild range of telomere lengths from before? I made a new bar graph with these numbers. Notice how they've all settled out!
-
-![Equal_Telomere_Shortening_Bar_Graph.jpg](/Assets/Equal_Telomere_Shortening_Bar_Graph.jpg "Equal_Telomere_Shortening_Bar_Graph.jpg")
-
-NOTE: THE RANGE OF TELOMERE LENGTHS ISN'T NECESSARILY WHAT I HAVE DEPICTED HERE. I NEED TO TAKE SUDA 2002 INTO ACCOUNT IN A FUTURE UPDATE.
+![Immortalized_Telomerase](/Assets/Immortalized_Telomerase.jpg "Immortalized_Telomerase")
 
 #### Modeling the Single Stranded G-rich Tail
 Another thing that I left out of earlier models was the G-rich and C-rich strands. I've just been describing the telomeres as having a length. They have sequence too! The G-rich strand is 5'-GGTTAG-3' and the C-rich strand is 3'-CCAATC-5'. Telomerase adds 5'-GGTTAG-3' (Harley 2008). The telomerase enzyme TERT uses the telomerase RNA 3'-CAAUCCCAAUC-5' as a template for the extension (Gavory 2002). There is a G-rich single stranded telomeric overhang of 130-210 nucleotides (Cesare 2010).
@@ -282,49 +434,8 @@ This model is the same as the telomere shortening + telomerase model AND you can
 
 I bring up point 3 because one problem with telomerase inhibitors is that they have been reported to cause problems with blood stem cells (Hu 2017). This update only needed three lines of code. I added a varible for the division number for telomerase to stop at and an if condition that sets telomerase activity to 0 AFTER that division number has been reached. 
 
-```python
-telomerase_stopped_at_division_number = 30
-telomere_bp_left_to_add = telomerase_bp_added_per_division
-    if telomerase_stopped_at_division_number <= current_division_number:
-        telomere_bp_left_to_add = 0
-    while telomere_bp_left_to_add > 0:
-        # get index for shortest telomere
-        shortest_telomere_index = current_list_of_telomere_lengths.index(min(current_list_of_telomere_lengths))
-        # get length of shortest telomere
-        length_of_shortest_telomere = current_list_of_telomere_lengths[shortest_telomere_index]
-        # add 6bp to shortest telomere
-        new_length_of_shortest_telomere = current_list_of_telomere_lengths[shortest_telomere_index] + 6
-        # change list entry at index # to new telomere length
-        current_list_of_telomere_lengths[shortest_telomere_index]=new_length_of_shortest_telomere
-        # less telomerase left
-        telomere_bp_left_to_add = telomere_bp_left_to_add - 6
-    # setting up for next division
-    current_list_of_telomere_lengths = [telomere-50 for telomere in current_list_of_telomere_lengths]
-    current_division_number += 1
-```
-
-NOTE: I SHOULD CHANGE THE CODE TO HAVE A TELOMERE LENGTH SEEDING NUMBER. IT'S CURRENTLY GETTING LONG TELOMERE LENGTHS BY HAVING A HIGH INITIAL TELOMERASE LEVEL AND THE TELOMERASE INHIBITION STARTED AT LATER CELL DIVISIONS. THE CONCEPTS ARE THE SAME, BUT IT'S NOT AS ELEGANT. I SHOULD ALSO ADD A STEM CELL TELOMERE LENGTH FOR THE STEM CELL PROBLEMS OF ANTI-TELOMERASE. I NEED TO GET AN ESTIMATE OF CANCER GROWTH OVER DIVISION NUMBER, SO I CAN ADD THAT TO THE SHORT TELOMERE CANCER INHIBITION CASE.
-
-Cancers with relatively short telomeres (these will divide out without telomerase):
-
-```sh
-It is division # 72
-This is the current list of telomere lengths: 
-[5309, 3215, 8597, 6167, 5741, 11130, 7328, 2978, 7239, 4484, 6188, 5785, 3948, 2978, 4771, 4212, 3670, 10457, 10790, 2975, 2976, 10914, 7447, 7491, 3936, 9322, 3866, 7015, 2978, 2978, 7193, 3883, 10189, 5269, 7772, 9935, 9335, 5016, 8568, 3551, 4133, 2976, 4655, 5280, 2975, 7598, 6102, 3259, 2977, 2979, 11118, 2977, 4284, 9731, 2978, 2979, 7753, 8627, 3875, 4769, 9755, 9210, 3822, 5761, 3288, 10555, 6506, 4434, 4774, 9741, 3911, 2980, 4942, 7019, 4712, 2976, 9085, 3298, 6611, 2980, 10056, 3279, 9046, 2978, 8006, 4973, 8171, 8519, 6429, 10526, 10572, 4949]
-Telomere number 2 is only 3215 bp long.
-p53-mediated senescence would be triggered, BUT p53 is mutated!
-Telomere number 8 is only 2978 bp long.
-There is massive genomic instability and cell death!
-```
-
-Cancers with very long telomeres (these might be able to keep dividing in the absence of telomerase). telomerase_stopped_at_division_number = 600 AND telomerase_bp_added_per_division = 6*767
-
-```sh
-It is division # 737
-This is the current list of telomere lengths: 
-[2988, 2986, 2988, 2984, 2985, 2984, 2987, 2986, 2985, 2984, 2985, 2986, 2987, 2988, 2984, 2989, 2989, 2985, 2987, 2985, 2986, 2986, 2987, 2985, 2987, 2989, 2988, 2988, 2985, 2984, 2988, 2985, 2988, 2988, 2988, 2986, 2986, 2985, 2984, 2986, 2986, 2983, 2983, 2984, 2986, 2986, 2988, 2988, 2985, 2985, 2983, 2983, 2984, 2985, 2984, 2988, 2983, 2984, 2983, 2987, 2988, 2986, 2984, 2983, 2985, 2984, 2986, 2984, 2988, 2985, 2983, 2984, 2983, 2988, 2985, 2988, 2988, 2987, 2988, 2988, 2987, 2988, 2985, 2987, 2986, 2986, 2987, 2985, 2986, 2985, 2988, 2983]
-Telomere number 1 is only 2988 bp long.
-There is massive genomic instability and cell death!
+```r
+I NEED TO FINISH MAKING THIS
 ```
 
 # Alternative Lengthening of Telomeres (ALT) Extends Telomeres
@@ -341,17 +452,112 @@ On an interesting note, there is a high frequency of cancers with a Mesenchymal 
 (Kalmbach 2014)
 
 #### ALT Telomeres are Long and Heterogenous
-ALT telomeres have long, heterogenous telomeres. They can range from less than 1 kbp (Rogan 1995) all the way up to 50 kbp (Bryan 1995). There is a rapid addition of telomeric sequences to short telomeres AND a rapid deletion of telomeric sequences from the long telomeres. This suggests recombinogenic behavior (Murnane 1994). ALT cells seem to be extending their telomeres through this process, but the mechanism isn't completely understood yet (Cesare 2010).  
+ALT telomeres have long, heterogenous telomeres. They can range from less than 1 kbp (Rogan 1995) all the way up to 50 kbp (Bryan 1995). There is a rapid addition of telomeric sequences to short telomeres AND a rapid deletion of telomeric sequences from the long telomeres. This suggests recombinogenic behavior (Murnane 1994). ALT cells seem to be extending their telomeres through this process, but the mechanism isn't completely understood yet (Cesare 2010). There are common losses and duplications of chromosomes (Sakellariou 2013). The ratio of p/q telomeric arms range from 10-0.1.
 
 I think there are still more details that I should take into account for this idea, but I'm not sure when I'll have the time for that. The simplified model I have in mind will:
 
 1) range in initialized telomere length from 500 bp to 50,000 bp
-2) have rapid kbp exchanges between short and long telomeres
-3) result in overall telomere extension on the short telomeres that are on the recombinogenic receiving end
+2) have a p/q telomeric arm ratio betwen 10-0.1
+3) take the 92 different telomere endings into account
 
-```python
-# I HAVEN'T MADE THIS YET.
+Forgive me for not representing actual ALT activity. It was pretty tough just getting the code to inititate ALT telomeres!
+
+```r
+# human cells have 92 telomeres at the G0 phase of the cell cycle.
+# 2 pairs of chromosomes * 23 chromosomes * 2 (p and q arms) = 92 telomeres
+# here are all of the names that I wrote out by hand ... boring! I should've written a function in Python to do this, lol!
+autosome_pairs_sex_chromosomes_and_arms <- c("c1a1p", "c1a1q","c2a1p","c2a1q","c3a1p","c3a1q","c4a1p","c4a1q","c5a1p","c5a1q","c6a1p","c6a1q","c7a1p","c7a1q","c8a1p","c8a1q","c9a1p","c9a1q","c10a1p","c10a1q","c11a1p","c11a1q","c12a1p","c12a1q","c13a1p","c13a1q","c14a1p","c14a1q","c15a1p","c15a1q","c16a1p","c16a1q","c17a1p","c17a1q","c18a1p","c18a1q","c19a1p","c19a1q","c20a1p","c20a1q","c21a1p","c21a1q","c22a1p","c22a1q","cXp","cXq","c1a2p","c1a2q","c2a2p","c2a2q","c3a2p","c3a2q","c4a2p","c4a2q","c5a2p","c5a2q","c6a2p","c6a2q","c7a2q", "c8a2p","c8a2q","c7a2p","c9a2q","c9a2p","c102q","c102p","c11a2q","c11a2p","c12a2p","c12a2q", "c13a2p","c13a2q", "c142p","c142q", "c15a2p", "c15a2q","c16a2p","c16a2q","c172p","c172q","c18a2p","c18a2q","c19a2p", "c19a2q","c20a2p","c20a2q", "c21a2p","c21a2q","c22a2p","c22a2q","cYp","cYq")
+length(autosome_pairs_sex_chromosomes_and_arms)
+# it creates 92 telomeres
+ALT_telomere_lengths <- vector("list", 92)
+# these are placeholders for values that will be used throughout the program
+current_telomere_length_total <- 0
+current_telomere_length_Q <- 0
+current_telomere_length_P <- 0
+# i keeps track of the current interation. Note that each run has two iterations of adding to the tel length list
+i <- 1
+generate_ALT_telomeres <- function() {
+  # runs for 46 items (cause 92 total and creating p and q w/ each loop)
+  for(length in 1:46){
+    # determine the total telomere length between 500 and 50,000 bp
+    current_telomere_length <- runif(1, min=500, max=50000)
+    # determine the p/q ratio between 0.1 and 10
+    P_to_Q_ratio <- runif(1, 0.1, 10)
+    # get the q arm length. This is some cool math! BUT, it might not be obvious
+    # there are two formulas here
+    # 1) p arm + q arm = total length
+    # 2) p arm / q arm = ratio => p arm = ratio * q arm
+    # substituting 2 into 1: ratio * q arm + q arm = total length
+    current_telomere_length_Q <- current_telomere_length/(P_to_Q_ratio+1)
+    # get the p arm length
+    current_telomere_length_P <- current_telomere_length - current_telomere_length_Q
+    # get the sum (this number is already known. I'm using it for error checking)
+    current_sum_p_q <- current_telomere_length_Q+current_telomere_length_P
+    # get the p/q ratio (this number is already known. I'm using it for error checking)
+    determine_P_to_Q_ratio <- current_telomere_length_P / current_telomere_length_Q
+    # print out the math to check by hand
+    print(paste("current total length is ", current_telomere_length, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " sum is ", current_sum_p_q))
+    print(paste("current P_to_Q_ratio is ", P_to_Q_ratio, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " P_to_Q_ratio is ", determine_P_to_Q_ratio))
+    print("")
+    # store current p and q arms
+    ALT_telomere_lengths[i] <- current_telomere_length_P 
+    i <- i + 1
+    ALT_telomere_lengths[i] <- current_telomere_length_Q
+    i <- i + 1
+  }
+  return(ALT_telomere_lengths)
+}
+ALT_telomere_lengths <- generate_ALT_telomeres()
 ```
+
+Here's the printed output. Note that I made it caluclate and return all of the values, so I could check them by eye. The math in the code isn't immediately obvious and it's always important to check your code and your math for errors! Here are the first couple of lines of code. Give them a math check!
+
+```sh
+[1] "current total length is  29483.7727698032 Q is  5957.23538429581 P is  23526.5373855074  sum is  29483.7727698032"
+[1] "current P_to_Q_ratio is  3.94923750159796 Q is  5957.23538429581 P is  23526.5373855074  P_to_Q_ratio is  3.94923750159796"
+[1] ""
+[1] "current total length is  5732.48566687107 Q is  1917.02364226407 P is  3815.462024607  sum is  5732.48566687107"
+[1] "current P_to_Q_ratio is  1.99030514829792 Q is  1917.02364226407 P is  3815.462024607  P_to_Q_ratio is  1.99030514829792"
+[1] ""
+[1] "current total length is  40303.4766089404 Q is  6558.95629193797 P is  33744.5203170024  sum is  40303.4766089404"
+[1] "current P_to_Q_ratio is  5.14480030282866 Q is  6558.95629193797 P is  33744.5203170024  P_to_Q_ratio is  5.14480030282866"
+[1] ""
+[1] "current total length is  32052.6402043179 Q is  9641.5347792759 P is  22411.105425042  sum is  32052.6402043179"
+[1] "current P_to_Q_ratio is  2.32443339552265 Q is  9641.5347792759 P is  22411.105425042  P_to_Q_ratio is  2.32443339552265"
+[1] ""
+[1] "current total length is  26283.9130933862 Q is  4428.17189769478 P is  21855.7411956914  sum is  26283.9130933862"
+[1] "current P_to_Q_ratio is  4.93561264120508 Q is  4428.17189769478 P is  21855.7411956914  P_to_Q_ratio is  4.93561264120508"
+```
+
+Here are those telomeres plotted as a bar graph:
+
+```r
+# This is a disgusting mess of overhwelming data
+barplot(as.numeric(ALT_telomere_lengths), names.arg=autosome_pairs_sex_chromosomes_and_arms, las=2, main="ALT+ Telomere Lengths for Chromosomes", xlab="Chromosome", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
+abline(h=5000, col="red", lwd=3)
+abline(h=3000, col="black", lwd=3)
+```
+
+Gosh! This looks terrible! The axes labels are covering over the telomere lengths AND the chromosome names. I'll need to tidy up ... actually, I'm just going to look at telomeres 1-46
+
+![ALT_ugly_telomeres](/Assets/ALT_ugly_telomeres.jpg "ALT_ugly_telomeres")
+
+```r
+barplot(as.numeric(ALT_telomere_lengths[1:46]), names.arg=autosome_pairs_sex_chromosomes_and_arms[1:46], las=2, main="ALT+ Telomeres 1-46", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
+abline(h=5000, col="red", lwd=3)
+abline(h=3000, col="black", lwd=3)
+```
+
+![ALT_telomeres_1_46](/Assets/ALT_telomeres_1_46.jpg "ALT_telomeres_1_46")
+
+```r
+barplot(as.numeric(ALT_telomere_lengths[47:92]), names.arg=autosome_pairs_sex_chromosomes_and_arms[47:92], las=2, main="ALT+ Telomeres 47-92", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
+abline(h=5000, col="red", lwd=3)
+abline(h=3000, col="black", lwd=3)
+```
+
+![ALT_telomeres_47_92](/Assets/ALT_telomeres_47_92.jpg "ALT_telomeres_47_92")
+
 
 #### ALT Telomeres Have C-rich Overhangs
 There is some degree of 5' C-rich overhang in ALT cells. 
@@ -501,7 +707,46 @@ showLogo="none", askForOverwrite=FALSE, verbose=TRUE)
 #texi2pdf("both_ATRX_Sequences_Alignment.tex", clean=TRUE)
 ```
 You can see that the sequences are the same until postion 236. That is where the Exon deletion for U2OS starts! 
+
 ![ATRX_Exon_Deletion_Alignment](/Assets/ATRX_Exon_Deletion_Alignment.jpg "ATRX_Exon_Deletion_Alignment")
+
+# Variants Repeats are Found in ALT Telomeres
+POT1 doesn't appear to play a major role in ALT telomeres. Here's a paper that showed relatively unchanged POT1 protein levels in a pre vs. post-ALT cancer (CITATION NEEDED). What's much more interested is the distribution of variant telomeric repeats found in ALT telomeres (Conomos 2012). Telomerase cells appear to have mostly TTAGGG repeats in their telomeres, but ALT telomeres also seem to have TCAGGG repeats. There is a very interesting model of ALT that invovles these TCAGGG repeats getting bound by nuclear receptors (Conomos 2012).
+
+Here are common telomeric sequences found in TEL+:
+
+```r
+# Conomos 2012 Figure S1 C HeLa
+# Pie Chart with Percentages
+slices <- c(889, 74, (0 + 8 + 94 + 8 + 6 + 7 + 4 + 2 + 471)) 
+lbls <- c("TTAGGG", "TCAGGG", "Other")
+pct <- round(slices/sum(slices)*100)
+lbls <- paste(lbls, pct) # add percents to labels 
+lbls <- paste(lbls,"%",sep="") # ad % to labels 
+pie(slices,labels = lbls, col=rainbow(length(lbls)),
+   main="HeLa Average Number of Telomeric Repeats")
+```
+
+![HeLa_Variant_Repeats](/Assets/HeLa_Variant_Repeats.jpg "HeLa_Variant_Repeats")
+
+Here are common telomeric sequences found in ALT+:
+
+```r
+# Conomos 2012 Figure S1 C 
+# Pie Chart with Percentages
+slices <- c(10165, 4466, (528 + 332 + 241 + 108 + 76 + 73 + 63 + 31 + 3231)) 
+lbls <- c("TTAGGG", "TCAGGG", "Other")
+pct <- round(slices/sum(slices)*100)
+lbls <- paste(lbls, pct) # add percents to labels 
+lbls <- paste(lbls,"%",sep="") # ad % to labels 
+pie(slices,labels = lbls, col=rainbow(length(lbls)),
+   main="WI38-VA13/2RA Average Number of Telomeric Repeats")
+```
+![WI38_VA13_2RA_Variant_Repeat](/Assets/WI38_VA13_2RA_Variant_Repeat.jpg "WI38_VA13_2RA_Variant_Repeat")
+
+This is the nuclear receptor recruitment model first presented in Conomos 2012:
+
+![Conomos_2012_Variant_Repeat_ALT_Model](/Assets/Conomos_2012_Variant_Repeat_ALT_Model.jpg "Conomos_2012_Variant_Repeat_ALT_Model")
 
 # TERT Promoter Compaction is Found in ALT
 ALT cells commonly have long, heterogenous telomere lengths (Kumakura 2005). Mouse embryonic stem cells deficient for DNMT have HUGE telomeres. Under normal conditions, mouse subtelomeres are heavily methylated, BUT that is not the case in mESC deficient for DNMT. The lack of DNMT increased the rate of telomeric sister chromatid exchanges (T-SCE), and ALT-associated Promyelocytic Nuclear Bodies (APBs). T-SCE and APBs are both common features of ALT activity. The authors concluded that the increased telomeric recombination MIGHT lead to telomere length changes, BUT they do not exclude the involvement of telomerase in the weirdly long telomeres that were seen (Gonzalo 2006). Luckily, I found these two other papers that go into more detail about TERT chromatin compaction in ALT!
@@ -680,6 +925,7 @@ showLogo="none", askForOverwrite=FALSE, verbose=FALSE)
 ![Klactis_Xenopus_Human_STN1_Proteins_AA_alignment](/Assets/Klactis_Xenopus_Human_STN1_Proteins_AA_alignment.jpg "Klactis_Xenopus_Human_STN1_Proteins_AA_alignment")
 
 # Citations
+NOTE: I AM WAYYYYYY BEHIND ON UPDATING THE CITATIONS LIST ... SORRY! Please message me if you have any questions about the papers that I mentioned throughout this review :)
 * Cheng 2012 Caenorhabditis elegans POT-2 telomere protein represses a mode of alternative lengthening of telomeres with normal telomere lengths
 * Cong 1999 The human telomerase catalytic subunit hTERT: organization of the gene and characterization of the promoter
 * Lovejoy 2012 PLoS Genet Loss of ATRX, genome instability, altered DNA damage response hallmarks of ALT pathway
