@@ -1,3 +1,10 @@
+
+* <a href="#Telomeres_Shorten_with_Age">Telomeres Shorten with Age</a>
+* <a href="#Telomere_Maintenance_Mechanism_Selection">Telomere Maintenance Mechanism Selection</a>
+* <a href="#Telomerase_Extends_Telomeres">Telomerase Extends Telomeres</a>
+* <a href="#Alternative_Lengthening_of_Telomeres_Extends_Telomeres">Alternative Lengthening of Telomeres Extends Telomeres</a>
+
+<a name="Telomeres_Shorten_with_Age"></a>
 # Telomeres Shorten with Age
 Human telomeres are estimated to be 5,000 - 15,000 base pairs at birth (Sanders 2013). The end replication problem shortens telomeres by approximately 50 bp with each round of cell division (Proctor 2002, Suda 2002). 
 
@@ -151,7 +158,7 @@ Coefficients:
 
 Here's that same initial plot, but I have included the line of fit:
 
-```{r}
+```r
 # here I'm using abline to add the line of regression
 plot(chromosome_lengths, telomere_lengths, main ="Telomere Lengths are Linearly Related to Chromosome Lengths", xlab="Chromosome Lengths (Mb)", ylab="Telomere Lenghts (bp)")
 abline(1920.25, 14.93)
@@ -284,7 +291,7 @@ This model divided 42 times before senescing.
 ![hCell_Shortening_After_42_Divisions](/Assets/hCell_Shortening_After_42_Divisions.jpg "hCell_Shortening_After_42_Divisions")
 
 
-
+<a name="Telomere_Maintenance_Mechanism_Selection"></a>
 # Telomere Maintenance Mechanism (TMM) Selection
 The selection of TMM seems to mainly depend upon telomerase chromatin compaction and mutations in ATRX & p53 (Gocha 2013). 
  
@@ -292,6 +299,7 @@ The selection of TMM seems to mainly depend upon telomerase chromatin compaction
 
 (Gocha 2013)
 
+<a name="Telomerase_Extends_Telomeres"></a>
 # Telomerase Extends Telomeres
 Telomerase adds 5'-GGTTAG-3' (Harley 2008). Telomerase extends the shortest telomeres first (Harley 2008, Cristofari 2006). The G-rich strand is 5'-GGTTAG-3' and the C-rich strand is 3'-CCAATC-5'. Telomerase adds 5'-GGTTAG-3' (Harley 2008). The telomerase enzyme TERT uses the telomerase RNA 3'-CAAUCCCAAUC-5' as a template for the extension (Gavory 2002). There is a G-rich single stranded telomeric overhang of 130-210 nucleotides (Cesare 2010). telomerase, which is a reverse transcriptase that adds repetitive telomeric DNA (TTAGGG)n to the ends of the chromosomes (Allsopp 2001). 
 
@@ -438,6 +446,7 @@ I bring up point 3 because one problem with telomerase inhibitors is that they h
 I NEED TO FINISH MAKING THIS
 ```
 
+<a name="Alternative_Lengthening_of_Telomeres_Extends_Telomeres"></a>
 # Alternative Lengthening of Telomeres (ALT) Extends Telomeres
 Stem cell telomerase isn't the only problem with the telomerase inhibition approach. Approximately 10-15% of cancers use the Alterantive Lengthening of Telomeres (ALT) to extend telomeres, some cancers won't be treated with these anti-telomerase therapies. But, it's way worse of a problem than that! Tumors have been reported to use both ALT and TEL simultaneously (Gocha 2013) AND in vitro inhibition of telomerase selects for ALT activity (Sahin 2012). 
 
