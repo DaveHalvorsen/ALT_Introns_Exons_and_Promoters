@@ -75,14 +75,13 @@ barplot(as.numeric(starting_lengths), names.arg=chromosome_names, las=2, main ="
 # according to Suda 2002 there should be a linear relationship between chromosome length and telomere length
 # Suda 2002 Table 1 chromosome size (megabases)
 chromosome_lengths <- c(246, 202, 193, 184, 173, 160, 146, 125, 110, 103, 100, 93, 85, 81, 62, 67, 48, 52)
-# Suda 2002 Table 1 telomere length (bp). This is after they subtacted 2000 bp (to remove subtelomeric region)
-all_telomere_lengths <- c(5681, 5681, 4987, 5018, 4589, 4302, 4127, 3922, 3708,3708,3708,3708, 4045, 3624, 3460, 3109, 3077, 3007, 2750, 2913, 2735, 2806)
+#all_telomere_lengths <- c(5681, 5681, 4987, 5018, 4589, 4302, 4127, 3922, 3708,3708,3708,3708, 4045, 3624, 3460, 3109, 3077, 3007, 2750, 2913, 2735, 2806)
 telomere_lengths <- c(5681, 4987, 5018, 4589, 4302, 4127, 3922, 3708, 4045, 3624, 3460, 3109, 3077, 3007, 2750, 2913, 2735, 2806)
 # these should be 18 long cause that's how many rows Suda 2002 has
 length(all_telomere_lengths)
 length(chromosome_lengths)
 length(telomere_lengths)
-
+mean(telomere_lengths)
 plot(chromosome_lengths, telomere_lengths, main ="Telomere and Chromosome Lengths are Linearly Related", xlab="Chromosome Lengths (Mb)", ylab="Telomere Lenghts (bp)")
 ```
 
@@ -270,7 +269,6 @@ above_five_thousand <- TRUE
 division_number <- 0
 telomerase_chromosome_lengths_play <- telomerase_chromosome_lengths_START
 while(above_five_thousand) {
-  
   #print(telomerase_chromosome_lengths_play)
   #print(division_number)
   barplot(telomerase_chromosome_lengths_play, names.arg=telomerase_chromosome_names, las=2, main = paste("hCell Telomere Shortening After ", division_number, " Divisions"), xlab="Chromosome", ylab="Telomere Lenghts (bp)", ylim=c(0,10000))
@@ -439,6 +437,7 @@ length(autosome_pairs_sex_chromosomes_and_arms)
 ```
 
 ```{r}
+# this is the old way ... all p arms are longer ... why?
 # Here are some of the inspiration papers for the model:
 # Bryan 1995. ALT up to 50 kb (peaks at 10 and 50 kb)
 # Henson 2002 less than 3kb to over 50 kb
@@ -447,6 +446,7 @@ length(autosome_pairs_sex_chromosomes_and_arms)
 # LOTS OF CITATIONS FOR THIS up to 30% of ALT telomeres have undetectable telomeres MIGHT BE UNDETECTABLY SHORT CAUSE DIFF SEQUENCES
 # 28 is J.N. Jeyapalan, A. Mendez-Bermudez, N. Zaffaroni, Y.E. Dubrova, N.J. Royle
 # PERREM 2001 p/q arm ratios are off in ALT (p / q is 10 - 0.1)
+# Fasching 2005 AG11395 q/p ratio 0.4 to 8.99 (22.5 fold) for Tel-PNA. 0.25 to 18.7 (74.8 fold) for SV40 probe3. <2 fold for telomerase
 # Henson 2010 Assaying and investigating Alternative Lengthening of Telomeres activity in human cells and cancers
 # ALT makes the ratio of p/q weird. Expected to be unchanged if ALT turned off.
 # Henson 2010 Assaying and investigating Alternative Lengthening of Telomeres activity in human cells and cancer
@@ -499,6 +499,238 @@ ALT_telomere_lengths <- generate_ALT_telomeres()
 ```
 
 ```{r}
+current_telomere_length <- runif(1, min=500, max=50000)
+P_to_Q_ratio <- runif(1, -10, 10)
+if(P_to_Q_ratio == 1) {
+  p <- current_telomere_length * 0.5
+  q <- current_telomere_length * 0.5
+} else if(P_to_Q_ratio > 1) {
+  q <- current_telomere_length/(P_to_Q_ratio+1)
+  p <- current_telomere_length - q
+} else if(P_to_Q_ratio < 1) {
+  p <- current_telomere_length/(abs(P_to_Q_ratio)+1)
+  q <- current_telomere_length - p
+}
+plot_this <- c(p,q)
+#barplot(plot_this, ylim=c(0,50000))
+check_ratio <- p / q
+print(check_ratio)
+print(p)
+print(q)
+print(current_telomere_length)
+```
+
+
+```{r}
+current_telomere_length <- runif(1, min=500, max=50000)
+print("total telomere length")
+current_telomere_length
+P_to_Q_ratio <- runif(1, 0.1, 10)
+print("p to q ratio")
+P_to_Q_ratio
+if(P_to_Q_ratio == 1){
+  p <- current_telomere_length * 0.5
+  q <- current_telomere_length * 0.5
+} else if(P_to_Q_ratio < 1) {
+  q <- current_telomere_length / (1 + P_to_Q_ratio)
+  p <- current_telomere_length - q
+} else if (P_to_Q_ratio > 1) {
+  p <- current_telomere_length / (1 + P_to_Q_ratio)
+  q <- current_telomere_length - p 
+}
+
+#q <- current_telomere_length/(P_to_Q_ratio+1)
+print("q is")
+q
+#p <- current_telomere_length - q
+print("p is")
+p
+check_total <- p + q
+print("check total")
+check_total
+check_ratio <- p/q
+print("check ratio")
+check_ratio
+plot_this <- c(p,q)
+barplot(plot_this)
+```
+
+
+```{r}
+# THIS WILL BE ATTEMPT 2
+# Here are some of the inspiration papers for the model:
+# Bryan 1995. ALT up to 50 kb (peaks at 10 - 50 kb)
+# Henson 2002 less than 3kb to over 50 kb
+# Murnane 1994 ALT cells sporadic +/- in telomere lengths up to 20 kb AND gradual erosion of 50 bp/ PD
+# Yeager 1999 ALT pattern took 17 generations to escape culture w/clone
+# LOTS OF CITATIONS FOR THIS up to 30% of ALT telomeres have undetectable telomeres MIGHT BE UNDETECTABLY SHORT CAUSE DIFF SEQUENCES
+# 28 is J.N. Jeyapalan, A. Mendez-Bermudez, N. Zaffaroni, Y.E. Dubrova, N.J. Royle
+# PERREM 2001 p/q arm ratios are off in ALT (p / q is 10 - 0.1)
+# Fasching 2005 AG11395 q/p ratio 0.4 to 8.99 (22.5 fold) for Tel-PNA. 0.25 to 18.7 (74.8 fold) for SV40 probe3. <2 fold for telomerase
+# Henson 2010 Assaying and investigating Alternative Lengthening of Telomeres activity in human cells and cancers
+# ALT makes the ratio of p/q weird. Expected to be unchanged if ALT turned off.
+# Henson 2010 Assaying and investigating Alternative Lengthening of Telomeres activity in human cells and cancer
+# Losses of chromosomes 13, X, and 22, gains of 2, 3, 5, and 20, and translocation/deletion events involving several common chromosomal fragile sites (CFSs) were recurrent.
+
+# it creates a list of 92 telomeres that randomly range from 500 bp to 50,000 bp in size. 
+# the p / q ratio is randomly chosen between 10 - 0.1
+# p + q arm = total telomere length for the chromosome of interest
+
+# it creates 92 telomeres
+ALT_telomere_lengths <- vector("list", 92)
+# these are placeholders for values that will be used throughout the program
+current_telomere_length_total <- 0
+current_telomere_length_Q <- 0
+current_telomere_length_P <- 0
+list_of_PQ_ratios <- vector("list", 46)
+text_of_PQ_numbers <- vector("list", 46)
+# i keeps track of the current interation. Note that each run has two iterations of adding to the tel length list
+i <- 1
+j <- 1
+generate_ALT_telomeres <- function() {
+  # runs for 46 items (cause 92 total and creating p and q w/ each loop)
+  for(length in 1:46){
+    # determine the total telomere length between 500 and 50,000 bp
+    current_telomere_length <- runif(1, min=10000, max=50000)
+    #current_telomere_length <- rnorm(1, 15000, 2000)
+    # determine the p/q ratio between 0.1 and 10
+    P_to_Q_ratio <- runif(1, -10, 10)
+    if(P_to_Q_ratio == 1) {
+      current_telomere_length_P <- current_telomere_length * 0.5
+      current_telomere_length_Q <- current_telomere_length * 0.5
+    } else if(P_to_Q_ratio > 1) {
+      current_telomere_length_Q <- current_telomere_length/(P_to_Q_ratio+1)
+      current_telomere_length_P <- current_telomere_length - current_telomere_length_Q
+    } else if(P_to_Q_ratio < 1) {
+      current_telomere_length_P <- current_telomere_length/(abs(P_to_Q_ratio)+1)
+      current_telomere_length_Q <- current_telomere_length - current_telomere_length_P
+    }
+    # current_telomere_length_P <- current_telomere_length - current_telomere_length_Q
+    # get the sum (this number is already known. I'm using it for error checking)
+    current_sum_p_q <- current_telomere_length_Q+current_telomere_length_P
+    # get the p/q ratio (this number is already known. I'm using it for error checking)
+    determine_P_to_Q_ratio <- current_telomere_length_P / current_telomere_length_Q
+    list_of_PQ_ratios[j] <- determine_P_to_Q_ratio
+    text_of_PQ_numbers[j] <- paste("P is ", current_telomere_length_P, " Q is ", current_telomere_length_Q)
+    # print out the math to check by hand
+    #print(paste("current total length is ", current_telomere_length, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " sum is ", current_sum_p_q))
+    #print(paste("current P_to_Q_ratio is ", P_to_Q_ratio, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " P_to_Q_ratio is ", determine_P_to_Q_ratio))
+    #print("")
+    # store current p and q arms
+    ALT_telomere_lengths[i] <- current_telomere_length_P 
+    i <- i + 1
+    ALT_telomere_lengths[i] <- current_telomere_length_Q
+    i <- i + 1
+    
+    j <- j + 1
+  }
+  #return(ALT_telomere_lengths)
+  #return(list_of_PQ_ratios)
+  newList <- list("lengths" = ALT_telomere_lengths, "ratios" = list_of_PQ_ratios, "text" = text_of_PQ_numbers)
+  return(newList)
+}
+newList <- generate_ALT_telomeres()
+
+ALT_telomere_lengths <- newList$lengths
+list_of_PQ_ratios <- newList$ratios
+text_of_PQ_numbers <- newList$text
+#ALT_telomere_lengths <- generate_ALT_telomeres()
+#list_of_PQ_ratios <- generate_ALT_telomeres()
+```
+
+```{r}
+# THIS WILL BE ATTEMPT 3
+# Here are some of the inspiration papers for the model:
+# Bryan 1995. ALT up to 50 kb (peaks at 10 - 50 kb)
+# Henson 2002 less than 3kb to over 50 kb
+# Murnane 1994 ALT cells sporadic +/- in telomere lengths up to 20 kb AND gradual erosion of 50 bp/ PD
+# Yeager 1999 ALT pattern took 17 generations to escape culture w/clone
+# LOTS OF CITATIONS FOR THIS up to 30% of ALT telomeres have undetectable telomeres MIGHT BE UNDETECTABLY SHORT CAUSE DIFF SEQUENCES
+# 28 is J.N. Jeyapalan, A. Mendez-Bermudez, N. Zaffaroni, Y.E. Dubrova, N.J. Royle
+# PERREM 2001 p/q arm ratios are off in ALT (p / q is 10 - 0.1)
+# Fasching 2005 AG11395 q/p ratio 0.4 to 8.99 (22.5 fold) for Tel-PNA. 0.25 to 18.7 (74.8 fold) for SV40 probe3. <2 fold for telomerase
+# Henson 2010 Assaying and investigating Alternative Lengthening of Telomeres activity in human cells and cancers
+# ALT makes the ratio of p/q weird. Expected to be unchanged if ALT turned off.
+# Henson 2010 Assaying and investigating Alternative Lengthening of Telomeres activity in human cells and cancer
+# Losses of chromosomes 13, X, and 22, gains of 2, 3, 5, and 20, and translocation/deletion events involving several common chromosomal fragile sites (CFSs) were recurrent.
+
+# it creates a list of 92 telomeres that randomly range from 500 bp to 50,000 bp in size. 
+# the p / q ratio is randomly chosen between 10 - 0.1
+# p + q arm = total telomere length for the chromosome of interest
+
+# it creates 92 telomeres
+ALT_telomere_lengths <- vector("list", 92)
+# these are placeholders for values that will be used throughout the program
+current_telomere_length_total <- 0
+current_telomere_length_Q <- 0
+current_telomere_length_P <- 0
+list_of_PQ_ratios <- vector("list", 46)
+text_of_PQ_numbers <- vector("list", 46)
+# i keeps track of the current interation. Note that each run has two iterations of adding to the tel length list
+i <- 1
+j <- 1
+generate_ALT_telomeres <- function() {
+  # runs for 46 items (cause 92 total and creating p and q w/ each loop)
+  for(length in 1:46){
+    # determine the total telomere length between 500 and 50,000 bp
+    #current_telomere_length <- runif(1, min=500, max=50000)
+    #current_telomere_length <- rnorm(1, 15000, 2000)
+    # current_telomere_length <- rnorm(1, 20000, 1250) + runif(1, min=500, max=20000)
+    current_telomere_length <- runif(1, min=10000, max=50000)
+    # determine the p/q ratio between 0.1 and 10
+    P_to_Q_ratio <- runif(1, -10, 10)
+    if(P_to_Q_ratio == 1) {
+      current_telomere_length_P <- current_telomere_length * 0.5
+      current_telomere_length_Q <- current_telomere_length * 0.5
+    } else if(P_to_Q_ratio > 1) {
+      # P_to_Q_ratio <- runif(1, 0.1, 10)
+      current_telomere_length_Q <- current_telomere_length/(runif(1, 0.1, 10)+1)
+      current_telomere_length_P <- current_telomere_length - current_telomere_length_Q
+    } else if(P_to_Q_ratio < 1) {
+      current_telomere_length_P <- current_telomere_length/(runif(1, 0.1, 10)+1)
+      current_telomere_length_Q <- current_telomere_length - current_telomere_length_P
+    }
+    # current_telomere_length_P <- current_telomere_length - current_telomere_length_Q
+    # get the sum (this number is already known. I'm using it for error checking)
+    current_sum_p_q <- current_telomere_length_Q+current_telomere_length_P
+    # get the p/q ratio (this number is already known. I'm using it for error checking)
+    determine_P_to_Q_ratio <- current_telomere_length_P / current_telomere_length_Q
+    list_of_PQ_ratios[j] <- determine_P_to_Q_ratio
+    text_of_PQ_numbers[j] <- paste("P is ", current_telomere_length_P, " Q is ", current_telomere_length_Q)
+    # print out the math to check by hand
+    #print(paste("current total length is ", current_telomere_length, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " sum is ", current_sum_p_q))
+    #print(paste("current P_to_Q_ratio is ", P_to_Q_ratio, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " P_to_Q_ratio is ", determine_P_to_Q_ratio))
+    #print("")
+    # store current p and q arms
+    ALT_telomere_lengths[i] <- current_telomere_length_P 
+    i <- i + 1
+    ALT_telomere_lengths[i] <- current_telomere_length_Q
+    i <- i + 1
+    
+    j <- j + 1
+  }
+  #return(ALT_telomere_lengths)
+  #return(list_of_PQ_ratios)
+  newList <- list("lengths" = ALT_telomere_lengths, "ratios" = list_of_PQ_ratios, "text" = text_of_PQ_numbers)
+  return(newList)
+}
+newList <- generate_ALT_telomeres()
+
+ALT_telomere_lengths <- newList$lengths
+list_of_PQ_ratios <- newList$ratios
+text_of_PQ_numbers <- newList$text
+#ALT_telomere_lengths <- generate_ALT_telomeres()
+#list_of_PQ_ratios <- generate_ALT_telomeres()
+```
+
+
+```{r}
+barplot(as.numeric(list_of_PQ_ratios), log="y", ylim=c(0.1,10))
+abline(h=1)
+```
+
+
+```{r}
 # This is a disgusting mess of overhwelming data
 # I should look at individual pairs of chromosomes
 barplot(as.numeric(ALT_telomere_lengths), names.arg=autosome_pairs_sex_chromosomes_and_arms, las=2, main="ALT+ Telomere Lengths for Chromosomes", xlab="Chromosome", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
@@ -516,16 +748,74 @@ abline(h=3000, col="black", lwd=3)
 
 
 ```{r}
-barplot(as.numeric(ALT_telomere_lengths[1:46]), names.arg=autosome_pairs_sex_chromosomes_and_arms[1:46], las=2, main="ALT+ Telomere Lengths for Chromosomes", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
+barplot(as.numeric(ALT_telomere_lengths[1:46]), names.arg=autosome_pairs_sex_chromosomes_and_arms[1:46], las=2, main="ALT+ Telomeres 1-46", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
 abline(h=5000, col="red", lwd=3)
 abline(h=3000, col="black", lwd=3)
 ```
 
 ```{r}
-barplot(as.numeric(ALT_telomere_lengths[47:92]), names.arg=autosome_pairs_sex_chromosomes_and_arms[47:92], las=2, main="ALT+ Telomere Lengths for Chromosomes", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
+barplot(as.numeric(ALT_telomere_lengths[47:92]), names.arg=autosome_pairs_sex_chromosomes_and_arms[47:92], las=2, main="ALT+ Telomeres 47-92", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
 abline(h=5000, col="red", lwd=3)
 abline(h=3000, col="black", lwd=3)
 ```
+
+```{r}
+i <- 1
+for(length in ALT_telomere_lengths){
+  print(i)
+  i <- i + 1
+}
+```
+
+
+
+
+```{r}
+play_ALT_telomere_lengths <- as.numeric(ALT_telomere_lengths)
+ALT_chromosome_lengths <- vector()
+i <- 1
+p <- 1
+q <- 2
+
+while(q <= 92) {
+  print(play_ALT_telomere_lengths[p])
+  print(play_ALT_telomere_lengths[q])
+  ALT_chromosome_lengths[i] <- as.numeric(play_ALT_telomere_lengths[p]) + as.numeric(play_ALT_telomere_lengths[q])
+  p <- p + 2
+  q <- q + 2
+  i <- i + 1
+}
+barplot((ALT_chromosome_lengths))
+```
+
+```{r}
+# Potts 2005 -175 bp / PD for inhibition of SMC5/6 complex. 36 PD for cellular senescence
+play_ALT_telomere_lengths <- ALT_chromosome_lengths
+dividing <- TRUE
+divisions <- 0
+while(dividing) {
+  barplot(as.numeric(play_ALT_telomere_lengths), las=2, main="ALT+ Telomere Lengths for Chromosomes", ylim=c(0,50000))
+  abline(h=5000, col="red", lwd=3)
+  abline(h=3000, col="black", lwd=3)
+  play_ALT_telomere_lengths <- as.numeric(play_ALT_telomere_lengths) - 175
+  #for(i in length(1:46)) {
+  #  current_total <- 
+  #}
+  if (min(play_ALT_telomere_lengths) < 3000){
+    dividing <- FALSE
+  }
+  divisions <- divisions + 1
+}
+
+```
+
+
+
+
+
+
+
+
 
 ```{r}
 # Here are some of the inspiration papers for the model:
@@ -549,7 +839,49 @@ abline(h=3000, col="black", lwd=3)
 # gains a chromosome 
 ```
 
+```{r}
+# Potts 2005 -175 bp / PD for inhibition of SMC5/6 complex
+# Jiang 2005 sp100 overexpression (sequestration of MRE11/RAD50/NBSS1) -121 bp/PD
+# HeLa hTR 8kb upper limit. ECTR detected 2-9 kb
+# Murnane 1994 rapid increase in size as approached 3kb limit of subteloemric fragment
+# +/- lengths of 20 kb, gradual erosion of 50 bp/PD
+# ALT_telomere_lengths
+new_ALT_telomere_lengths <- vector("list", 92)
+current_telomere_change <- 0
+current_q_length <- 0
+current_p_length <- 0
+new_P_to_Q_ratio <- 0
+dividing <- TRUE
+i <- i + 1
+while(dividing) {
+  print(i)
+  for(length in (1:46)){
+    current_telomere_change <- runif(1, -20000, 20000)
+    new_P_to_Q_ratio <- runif(1, 0.1, 10)
+  }
+  
+  
+  if (i == 100) {
+    dividing <- FALSE
+  }
+  i <- i + 1
+}
+```
 
+```{r}
+# ever shorter telomere phenotype
+# Dagg 
+# Viceconte 2017 ~10 kb at p12 down to ~5kb LB2901-MEL (hTERT neg ), LB3129-MELA, and LB3129-MELB (hTR neg )
+# Viceconte 2017 down to ~6 and 3kb LB2870-MEL and LB2687-MEL TRAP pos melanoma, shortening in culture ... did not go through crisis?
+# how many population doublings?
+# LB2870-MEL/TEL + (p21), LB2687-MEL/TEL + (p25), and in LB2901-MEL (p16) and LB3129-MELB (p21)
+# 3129 mela p22 crisis, 3129 melb p26 crisis, lb2901 mel p25 crisis
+
+# Dagg 2017 telomeres progressively shortening over 200 pd EST. single cell 40 cell divisions is 2^40 cells ~ 1 kg
+# assuming all cells survive, enough nutrients etc., prob need multiple rounds clonal evolution for enough mutations
+# telomerase during embryogenesis? no telomere trimming? NO t-cicrles in EST lines. unopposed telomerase during embryogenesis, excesisve tel lengthening 
+# COG-N-291 and LA-N-6 TRF mean 31.0 and 37.8 kb, highly heterogenous telomere lengths
+```
 
 
 

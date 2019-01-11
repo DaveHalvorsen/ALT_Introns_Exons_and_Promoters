@@ -720,7 +720,7 @@ You can see that the sequences are the same until postion 236. That is where the
 ![ATRX_Exon_Deletion_Alignment](/Assets/ATRX_Exon_Deletion_Alignment.jpg "ATRX_Exon_Deletion_Alignment")
 
 # Variants Repeats are Found in ALT Telomeres
-POT1 doesn't appear to play a major role in ALT telomeres. Here's a paper that showed relatively unchanged POT1 protein levels in a pre vs. post-ALT cancer (CITATION NEEDED). What's much more interested is the distribution of variant telomeric repeats found in ALT telomeres (Conomos 2012). Telomerase cells appear to have mostly TTAGGG repeats in their telomeres, but ALT telomeres also seem to have TCAGGG repeats. There is a very interesting model of ALT that invovles these TCAGGG repeats getting bound by nuclear receptors (Conomos 2012).
+POT1 doesn't appear to play a major role in ALT telomeres. Here's a paper that showed relatively unchanged POT1 protein levels in a pre vs. post-ALT cancer (Kamranvar 2013). What's much more interested is the distribution of variant telomeric repeats found in ALT telomeres (Conomos 2012). Telomerase cells appear to have mostly TTAGGG repeats in their telomeres, but ALT telomeres also seem to have TCAGGG repeats. There is a very interesting model of ALT that invovles these TCAGGG repeats getting bound by nuclear receptors (Conomos 2012).
 
 Here are common telomeric sequences found in TEL+:
 
@@ -963,6 +963,7 @@ NOTE: I AM WAYYYYYY BEHIND ON UPDATING THE CITATIONS LIST ... SORRY! Please mess
 * Gavory 2002 Minimum length requirement of the alignment domain of human telomerase RNA to sustain catalytic activity in vitro
 * Murnane 1994 Telomere dynamics in an immortal human cell line
 * Telomere elongation in immortal human cells without detectable telomerase activity
+* Kamranvar 2013 Telomere dysfunction and activation of alternative lengthening of telomeres in B-lymphocytes infected by Epstein-Barr virus
 
 
 
