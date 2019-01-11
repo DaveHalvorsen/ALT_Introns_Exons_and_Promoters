@@ -869,20 +869,54 @@ while(dividing) {
 ```
 
 ```{r}
-# ever shorter telomere phenotype
-# Dagg 
 # Viceconte 2017 ~10 kb at p12 down to ~5kb LB2901-MEL (hTERT neg ), LB3129-MELA, and LB3129-MELB (hTR neg )
 # Viceconte 2017 down to ~6 and 3kb LB2870-MEL and LB2687-MEL TRAP pos melanoma, shortening in culture ... did not go through crisis?
 # how many population doublings?
 # LB2870-MEL/TEL + (p21), LB2687-MEL/TEL + (p25), and in LB2901-MEL (p16) and LB3129-MELB (p21)
 # 3129 mela p22 crisis, 3129 melb p26 crisis, lb2901 mel p25 crisis
+EST_telomerase_start_length <- 4000
+current_length <- EST_telomerase_start_length
+dividing <- TRUE
+division_number <- 0
+cell_number <- 1
+while(dividing) {
+  # telomere shortening
+  current_length <- current_length - 50
+  # low-level telomerase
+  current_length <- current_length + 10
+  if(current_length < 3000) {
+    dividing <- FALSE
+  }
+  division_number <- division_number + 1
+  cell_number <- cell_number * 2
+}
+print(division_number)
+print(cell_number)
+```
 
+
+```{r}
 # Dagg 2017 telomeres progressively shortening over 200 pd EST. single cell 40 cell divisions is 2^40 cells ~ 1 kg
 # assuming all cells survive, enough nutrients etc., prob need multiple rounds clonal evolution for enough mutations
 # telomerase during embryogenesis? no telomere trimming? NO t-cicrles in EST lines. unopposed telomerase during embryogenesis, excesisve tel lengthening 
 # COG-N-291 and LA-N-6 TRF mean 31.0 and 37.8 kb, highly heterogenous telomere lengths
+EST_long_start_length <- 15000
+current_length <- EST_long_start_length
+dividing <- TRUE
+division_number <- 0
+cell_number <- 1
+while(dividing) {
+  # telomere shortening
+  current_length <- current_length - 50
+  if(current_length < 3000) {
+    dividing <- FALSE
+  }
+  division_number <- division_number + 1
+  cell_number <- cell_number * 2
+}
+print(division_number)
+print(cell_number)
 ```
-
 
 
 

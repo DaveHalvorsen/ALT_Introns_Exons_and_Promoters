@@ -200,6 +200,10 @@ while(above_five_thousand) {
 
 
 ```{r}
+
+```
+
+```{r}
 # ALT chromosomes have different sizes for the p and q arms, so now I'll need to take those into account. 
 # the length of one set of chromosomes should be 23
 one_set_of_chromosomes <- c((1:22), "X")
