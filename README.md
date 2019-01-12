@@ -1,13 +1,45 @@
+# A Universal Cure for Cancer?
 
+# Table of Contents
 * <a href="#Telomeres_Shorten_with_Age">Telomeres Shorten with Age</a>
+	* <a href="#Simple_1_Telomere_Shortening_Model">Simple 1 Telomere Shortening Model</a>
+	* <a href="#Simple_1_Telomere_Model_Damage_Checkpoint">Simple 1 Telomere Model & Damage Checkpoint</a>
+	* <a href="#23_Telomere_Model">23 Telomere Model</a>
+	* <a href="#Telomere_Length_is_Linearly_Related_to_Chromosome_Length">Telomere Length is Linearly Related to Chromosome Length</a>
+	* <a href="#Modeling_WT_Telomere_Shortening">Modeling WT Telomere Shortening</a>
 * <a href="#Telomere_Maintenance_Mechanism_Selection">Telomere Maintenance Mechanism Selection</a>
 * <a href="#Telomerase_Extends_Telomeres">Telomerase Extends Telomeres</a>
-* <a href="#Alternative_Lengthening_of_Telomeres_Extends_Telomeres">Alternative Lengthening of Telomeres Extends Telomeres</a>
+	* <a href="#Model_of_Different_Telomerase_Levels">Model of Different Telomerase Levels</a>
+	* <a href="#Modeling_the_Single_Stranded_G-rich_Tail">Modeling the Single Stranded G-rich Tail</a>
+	* <a href="#Model_of_Inhibiting_Telomerase">Model of Inhibiting Telomerase</a>
+* <a href="#Alternative_Lengthening_of_Telomeres">Alternative Lengthening of Telomeres</a>
+	* <a href="#ALT_Telomeres_are_Long_and_Heterogenous">ALT Telomeres are Long and Heterogenous</a>
+	* <a href="#ALT_Telomeres_Have_C_rich_Overhangs">ALT Telomeres Have C-rich Overhangs</a>
+	* <a href="#POT_1_Deficiency_Creates_ALT_C_Elegans_Strains">POT-1 Deficiency Creates ALT+ C. Elegans Strains</a>
+		* <a href="#Multiple_Sequence_Alignment_of_pot_1_Genes">Multiple Sequence Alignment of pot-1 Genes</a>
+		* <a href="#Multiple_Sequence_Alignment_of_pot_1_Proteins">Multiple Sequence Alignment of pot-1 Proteins</a>
+		* <a href="#Displaying_pot_1_Open_Reading_Frames">Displaying pot-1 Open Reading Frames</a>
+		* <a href="#Discussing_C_elegans_pot_1_Alternative_Splicing">Discussing C. elegans pot-1 Alternative Splicing</a>
+	* <a href="#ATRX_Exon_Deletion_is_Common_in_ALT">ATRX Exon Deletion is Common in ALT</a>
+		* <a href="#Getting_ATRX_DNA">Getting ATRX DNA</a>
+		* <a href="#Removing_ATRX_Exons_2_29">Removing ATRX Exons 2-29</a>
+		* <a href="#Sequence_Alignment_of_WT_ATRX_to_Mutant_ATRX">Sequence Alignment of WT ATRX to Mutant ATRX</a>
+	* <a href="#Variants_Repeats_are_Found_in_ALT_Telomeres">Variants Repeats are Found in ALT Telomeres</a>
+	* <a href="#TERT_Promoter_Compaction_is_Found_in_ALT">TERT Promoter Compaction is Found in ALT</a>
+		* <a href="#Getting_The_hTERT_Sequence">Getting The hTERT Sequence</a>
+		* <a href="#Obtaining_hTERT_WITH_the_CpG_Island_Region">Obtaining hTERT WITH the CpG Island Region</a>
+		* <a href="#Analyzing_the_Alleged_CpG_Promoter_Region">Analyzing the Alleged CpG Promoter Region</a>
+	* <a href="#STN1_Mutation_Triggers_ALT_in_Yeast">STN1 Mutation Triggers ALT in Yeast</a>
+		* <a href="#Obtaining_STN1_From_3_Yeast_Organisms">Obtaining STN1 From 3 Yeast Organisms</a>
+		* <a href="#Attempt_to_Replicate_Lyer_2005_Figure_4">Attempt to Replicate Lyer 2005 Figure 4</a>
+		* <a href="#Aligning_Human_Yeast_and_Frog_STN1">Aligning Human, Yeast, and Frog STN1</a>
+* <a href="#Citations">Citations</a>
 
 <a name="Telomeres_Shorten_with_Age"></a>
 # Telomeres Shorten with Age
 Human telomeres are estimated to be 5,000 - 15,000 base pairs at birth (Sanders 2013). The end replication problem shortens telomeres by approximately 50 bp with each round of cell division (Proctor 2002, Suda 2002). 
 
+<a name="Simple_1_Telomere_Shortening_Model"></a>
 #### Simple 1 Telomere Shortening Model
 Here's a simple mathematical model for one telomere:
 
@@ -52,6 +84,7 @@ Here are the last couple of lines of output:
 [1] "There are  1.60693804425899e+60  cells after  200  doublings with a telomere length of  0  bp."
 ```
 
+<a name="Simple_1_Telomere_Model_Damage_Checkpoint"></a>
 #### Simple 1 Telomere Model & Damage Checkpoint
 The situation is more complicated than that model. A DNA damage checkpoint will be triggered at around 5k bp. If cell cycle checkpoints are intact, the cell will senesce at around 5 kb. If oncogenic changes have occurred, the cell will divide until around 3k bp. There will be genomic instability, which will lead to more mutations and eventual cell death UNLESS a telomere maintenance mechanism stabilizes the telomeres (Harley 2008, Shay 2012). 
 
@@ -109,7 +142,7 @@ In the previous model we saw that 5 mutations occurred over 100 population doubl
 
 ![Shay_2012_Mutations_Cancer](/Assets/Shay_2012_Mutations_Cancer.jpg "Shay_2012_Mutations_Cancer")
 
-
+<a name="23_Telomere_Model"></a>
 #### 23 Telomere Model
 But there isn't just one telomere! Human cells have 23 pairs of chromosomes, so lets limit the view to the total telomere length for 23 human chromosomes. We will dive into p and q arms in a later section. It's been reported that the DNA damage checkpoint will be triggered by the shortest telomere (Harley 2008) ... so you should be questioning the validity of this model! Don't worry, it's about to get a lot more complicated :) 
 
@@ -124,6 +157,7 @@ abline(h=3000, col="black", lwd=3)
 
 ![23_Chromosome_Simple_Lengths](/Assets/23_Chromosome_Simple_Lengths.jpg "23_Chromosome_Simple_Lengths")
 
+<a name="Telomere_Length_is_Linearly_Related_to_Chromosome_Length"></a>
 #### Telomere Length is Linearly Related to Chromosome Length
 A DNA damage checkpoint will get triggered by the shortest telomere (Harley 2008). So a better mathematical model would take into account the distribution of telomere lengths and each individual telomere's shortening. See table 1 of Suda 2002 for the estimated telomere lengths of chromosomes 1-22 for the GM130B cell line. It is a telomerase positive (TEL+) spontaneously immortalized lymphoblast line from a male human. 
 
@@ -250,6 +284,7 @@ Here's that final senescent state:
 
 ![GM130B_Senesces_After_15PD](/Assets/GM130B_Senesces_After_15PD.jpg "GM130B_Senesces_After_15PD")
 
+<a name="Modeling_WT_Telomere_Shortening"></a>
 #### Modeling WT Telomere Shortening
 The Suda 2002 is a very interesting case with an immortalized cell. This is my attempt to model the initial telomere length state for a human at birth and follow it through until senescence. Note that I'm using the Harley 2008 5 kb red line of senescence and the black 3kb line of crisis.
 
@@ -303,6 +338,7 @@ The selection of TMM seems to mainly depend upon telomerase chromatin compaction
 # Telomerase Extends Telomeres
 Telomerase adds 5'-GGTTAG-3' (Harley 2008). Telomerase extends the shortest telomeres first (Harley 2008, Cristofari 2006). The G-rich strand is 5'-GGTTAG-3' and the C-rich strand is 3'-CCAATC-5'. Telomerase adds 5'-GGTTAG-3' (Harley 2008). The telomerase enzyme TERT uses the telomerase RNA 3'-CAAUCCCAAUC-5' as a template for the extension (Gavory 2002). There is a G-rich single stranded telomeric overhang of 130-210 nucleotides (Cesare 2010). telomerase, which is a reverse transcriptase that adds repetitive telomeric DNA (TTAGGG)n to the ends of the chromosomes (Allsopp 2001). 
 
+<a name="Model_of_Different_Telomerase_Levels"></a>
 #### Model of Different Telomerase Levels
 Telomerase overexpression might have an upper limit of 0.8 kb/division ... I'm not certain, but that was reported in Cristofari 2006. I might want to create a future update that limits to 800 bases/division just to keep cellular resources in mind. I don't know how model the telomerase activity in Python with a great deal of biological accuracy ... 
 
@@ -382,6 +418,7 @@ Note that the code breaks at 300 population doublings because it'd go on forever
 
 ![Immortalized_Telomerase](/Assets/Immortalized_Telomerase.jpg "Immortalized_Telomerase")
 
+<a name="Modeling_the_Single_Stranded_G"></a>
 #### Modeling the Single Stranded G-rich Tail
 Another thing that I left out of earlier models was the G-rich and C-rich strands. I've just been describing the telomeres as having a length. They have sequence too! The G-rich strand is 5'-GGTTAG-3' and the C-rich strand is 3'-CCAATC-5'. Telomerase adds 5'-GGTTAG-3' (Harley 2008). The telomerase enzyme TERT uses the telomerase RNA 3'-CAAUCCCAAUC-5' as a template for the extension (Gavory 2002). There is a G-rich single stranded telomeric overhang of 130-210 nucleotides (Cesare 2010).
 
@@ -414,6 +451,7 @@ Mefford 2002 The complex structure and dynamic evolution of human subtelomeres
 Suda 2002 Interchromosomal Telomere Length Variation
 Graakjaer 2003 The pattern of chromosome-specific variations in telomere length in humans is determined by inherited, telomere-near factors and is maintained throughout life
 
+<a name="Model_of_Inhibiting_Telomerase"></a>
 #### Model of Inhibiting Telomerase 
 When DNA is getting copied, small end pieces aren't able to be fully copied. This is known as the End Replication Problem and is a result of Okazaki fragments incompletely covering the end of the chromosome. This is an issue for cell types that need to divide a lot, like Hematopoietic stem cells (HSC). HSCs have plenty of division to do so they can keep up with all the differentiation to make blood cells. This is why they express telomerase, which is a reverse transcriptase that adds repetitive telomeric DNA (TTAGGG)n to the ends of the chromosomes (Allsopp 2001). Did you notice that I'm citing a paper from the Weissman lab? ;)  
  
@@ -446,7 +484,7 @@ I bring up point 3 because one problem with telomerase inhibitors is that they h
 I NEED TO FINISH MAKING THIS
 ```
 
-<a name="Alternative_Lengthening_of_Telomeres_Extends_Telomeres"></a>
+<a name="Alternative_Lengthening_of_Telomeres"></a>
 # Alternative Lengthening of Telomeres (ALT) Extends Telomeres
 Stem cell telomerase isn't the only problem with the telomerase inhibition approach. Approximately 10-15% of cancers use the Alterantive Lengthening of Telomeres (ALT) to extend telomeres, some cancers won't be treated with these anti-telomerase therapies. But, it's way worse of a problem than that! Tumors have been reported to use both ALT and TEL simultaneously (Gocha 2013) AND in vitro inhibition of telomerase selects for ALT activity (Sahin 2012). 
 
@@ -460,6 +498,7 @@ On an interesting note, there is a high frequency of cancers with a Mesenchymal 
 
 (Kalmbach 2014)
 
+<a name="ALT_Telomeres_are_Long_and_Heterogenous"></a>
 #### ALT Telomeres are Long and Heterogenous
 ALT telomeres have long, heterogenous telomeres. They can range from less than 1 kbp (Rogan 1995) all the way up to 50 kbp (Bryan 1995). There is a rapid addition of telomeric sequences to short telomeres AND a rapid deletion of telomeric sequences from the long telomeres. This suggests recombinogenic behavior (Murnane 1994). ALT cells seem to be extending their telomeres through this process, but the mechanism isn't completely understood yet (Cesare 2010). There are common losses and duplications of chromosomes (Sakellariou 2013). The ratio of p/q telomeric arms range from 10-0.1.
 
@@ -567,7 +606,7 @@ abline(h=3000, col="black", lwd=3)
 
 ![ALT_telomeres_47_92](/Assets/ALT_telomeres_47_92.jpg "ALT_telomeres_47_92")
 
-
+<a name="ALT_Telomeres_Have_C_rich_Overhangs"></a>
 #### ALT Telomeres Have C-rich Overhangs
 There is some degree of 5' C-rich overhang in ALT cells. 
 
@@ -581,7 +620,8 @@ There is some degree of 5' C-rich overhang in ALT cells.
 
 The altered C-rich overhangs involved in ALT will likely prevent POT-1 from binding effectively to the telomeres. This is a great segway into the ALT literature! For example, POT-1 deficiency creates ALT in C. elegans!
 
-# POT-1 Deficiency Creates ALT+ C. Elegans Strains
+<a name="POT_1_Deficiency_Creates_ALT_C_Elegans_Strains"></a>
+#### POT-1 Deficiency Creates ALT+ C. Elegans Strains
 Telomeres cap linear chromosomes because DNA polymerase can't completely copy chromosomes. Telomerase adds telomeric repeats to the ends of linear chromosomes with reverse transcription. Most human cancers have long, heterogenous telomeres. Telomere shortening leads to senescence and potentially crisis. Cancer emerges as part of massive cell death and genomic rearrangements after crisis. 10-15% of cancers are estimated to use ALT (Cheng 2012). 
 
 ALT can happen in Caenorhabditis elegans! Mammalian POT1 has homologs in C. elegans as pot-1 (CeOB2) and pot-2 (CeOB1). What's the deal with the reversing of 1 and 2? That's how it's reported in the paper ... it's odd. pot-1 mutant C. elegans have HUGE telomere lengths while pot-2 mutants have normal telomere lengths. The authors of Cheng 2012 created a variety of mutants in C. elegans.  The trt-1 C. elegans mutant has a deletion in telomerase reverse transcriptase. trt-1 & pot-2 absence led to ALT+ Caenorhabditis elegans with normal telomere lengths. trt-1 and pot-1 mutants were found to have long, heterogenous telomere lengths like those seen in human ALT. Here is the survival figure showing that C. elegans can survive in the absence of telomerase reverse transcriptase.
@@ -590,7 +630,8 @@ ALT can happen in Caenorhabditis elegans! Mammalian POT1 has homologs in C. eleg
 
 (Cheng 2012)
 
-#### Multiple Sequence Alignment of pot-1 Genes
+<a name="Multiple_Sequence_Alignment_of_pot_1_Genes"></a>
+###### Multiple Sequence Alignment of pot-1 Genes
 YES, pot-2 was the central point of the paper, but it won't be as fun to play with because it only has one isoform. I picked pot-1 cause there is a lot of cool stuff to play with. There were a lot of workup steps to get all of the sequences ... It would take a long while to review them. Essentially, I looked up the proteins on UniProt and then grabbed the DNA files from NCBI GenBank and WormBase. Check out the Celegans_POT1_ALT folder for the file names of everything. The file containing all the C. elegans genes is Celegans_POT1_genes.fasta. I used the R package "msa" for multiple sequence alignment with this code:
 
 ```r
@@ -606,7 +647,8 @@ The aligned sequences aren't very pretty ... I decided not to include sequence l
 
 ![Celegans_POT1_gene_alignment](/Assets/Celegans_POT1_gene_alignment.jpg "Celegans_POT1_gene_alignment")
 
-#### Multiple Sequence Alignment of pot-1 Proteins
+<a name="Multiple_Sequence_Alignment_of_pot_1_Proteins"></a>
+###### Multiple Sequence Alignment of pot-1 Proteins
 I grabbed all the C elegans pot-1 isoform sequences from UniProt. You can check them out in Celegans_POT1_ALT/Protein. The file containing all of the sequences is Celegans_POT1_Proteins.fasta. I aligned all of the proteins with code that is similar to the DNA alignment code:
 
 ```r
@@ -622,7 +664,8 @@ This alignment looks great! You can see all of the alignments between the differ
 
 ![Celegans_POT1_protein_alignment](/Assets/Celegans_POT1_protein_alignment.jpg "Celegans_POT1_protein_alignment")
 
-#### Displaying pot-1 Open Reading Frames
+<a name="Displaying_pot_1_Open_Reading_Frames"></a>
+###### Displaying pot-1 Open Reading Frames
 I used code from the BioPython Tutorial to identify the C. elegans pot-1 gene Open Reading Frames AND to report the translated proteins! Compare this to the last section to see that the the DNA -> Protein translations all have the correct lengths! The code is from http://biopython.org/DIST/docs/tutorial/Tutorial.html in the section titled "20.1.13. Identifying open reading frames". You should check this code out! It can identify Open Reading Frames in the +/- strand AND in three different reading frames, SO IT DOES ALL 6 FRAMES!!! I re-used the code four times (instead of making a function, haha). Here's part of the code that I used:
 
 ```python
@@ -652,7 +695,8 @@ for strand, nuc in [(+1, record.seq), (-1, record.seq.reverse_complement())]:
 
 ![Displaying_pot-1_Open_Reading_Frames](/Assets/Displaying_pot-1_Open_Reading_Frames.jpg "Displaying_pot-1_Open_Reading_Frames")
 
-#### Discussing C. elegans pot-1 Alternative Splicing
+<a name="Discussing_C_elegans_pot_1_Alternative_Splicing"></a>
+###### Discussing C. elegans pot-1 Alternative Splicing
 WormBase has three isoforms for pot-1 in C. elegans https://wormbase.org/species/c_elegans/gene/WBGene00015105#0-9g-3
 
 ![WormBase_pot-1_Celegans_Isoforms](/Assets/WormBase_pot-1_Celegans_Isoforms.jpg "WormBase_pot-1_Celegans_Isoforms")
@@ -669,16 +713,19 @@ Transcript B0280.10c.1 is 1140 nucleotides long and it codes for a 379 amino aci
 
 ![B0280.10c.1_Celegans_pot-1_isoformC_1140NT_379AA](/Assets/B0280.10c.1_Celegans_pot-1_isoformC_1140NT_379AA.jpg "B0280.10c.1_Celegans_pot-1_isoformC_1140NT_379AA")
 
-# ATRX Exon Deletion is Common in ALT
+<a name="ATRX_Exon_Deletion_is_Common_in_ALT"></a>
+##### ATRX Exon Deletion is Common in ALT
 This project can be found in the Human_ATRX_ALT folder. ATRX gene mutations are found in a range of cancers. 10-15% of cancers are estimated to use ALT. ALT involves homologous recombination-based telomere elongation. Inactivating mutations in either ATRX or DAXX are found in many cancers. Depletion of ATRX seems insufficient to trigger ALT, but it does seem to play a key role in the ALT pathway. The absence of ATRX might lead to the failure of stalled replication forks to get resolved. The required fork restart would require homologus recombination and could jumpstart the ALT pathway (Clynes 2013). ALT involves a template-based lengthening of telomeres with homologous recombination. The genetic and epigenetic changes are not full understood. Lovejoy 2012 reported that ATRX gene mutations are a common feature of ALT. Specifically 19/22 ALT+ cell lines had an issue with the expression of ATRX or DAXX (Lovejoy 2012). See the Lovejoy 2012 supplementary information for the Excel table of Exon deletions in ALT cell lines. 
 ![ATRX_Prevents_Fork_Collapse](/Assets/ATRX_Prevents_Fork_Collapse.jpg "ATRX_Prevents_Fork_Collapse")
 
 (Clynes 2013)
 
-#### Getting ATRX DNA
+<a name="Getting_ATRX_DNA"></a>
+###### Getting ATRX DNA
 Searching Ensembl for human ATRX yielded ATRX-201 and ATRX-202. I picked ATRX-201 cause it has 35 exons (which matches the Lovejoy 2012 paper). It was Ensembly ENST00000373344.10. Ensembl refseq switch to NCBI Reference Sequence yielded NM_000489.5 for the gene. I saved it as NM_000489.5_homo_sapiens_ATRX_Gene.fasta.
 
-#### Removing ATRX Exons 2-29 
+<a name="Removing_ATRX_Exons_2_29"></a>
+###### Removing ATRX Exons 2-29 
 See the Lovejoy 2012 supplementary Excel table for a list of commonly missing ATRX Exons. I decided to play with the U2OS variant because that is a cell line that I used to grow :) U2OS is missing ATRX exons 2-29. NCBI says exon 2 is [236:348] and exon 29 is 6542..6719 https://www.ncbi.nlm.nih.gov/nuccore/NM_000489. I used R to remove those exons.
 
 ```r
@@ -694,7 +741,8 @@ U2OS_ATRX_Characters <- c(U2OS_hATRX_Gene_Nucleotide_FIRST, U2OS_hATRX_Gene_Nucl
 U2OS_ATRX_DNAstring <- DNAString(paste(toupper(U2OS_ATRX_Characters), collapse = ""))
 ```
 
-#### Sequence Alignment of WT ATRX to Mutant ATRX
+<a name="Sequence_Alignment_of_WT_ATRX_to_Mutant_ATRX"></a>
+###### Sequence Alignment of WT ATRX to Mutant ATRX
 The R msa package can't handle the full length of the ATRX gene, so I shortened it down to 400 nucleotides.
 ```r
 # limit it to 400 ... that's more than enough to see exon absence
@@ -719,7 +767,8 @@ You can see that the sequences are the same until postion 236. That is where the
 
 ![ATRX_Exon_Deletion_Alignment](/Assets/ATRX_Exon_Deletion_Alignment.jpg "ATRX_Exon_Deletion_Alignment")
 
-# Variants Repeats are Found in ALT Telomeres
+<a name="Variants_Repeats_are_Found_in_ALT_Telomeres"></a>
+#### Variants Repeats are Found in ALT Telomeres
 POT1 doesn't appear to play a major role in ALT telomeres. Here's a paper that showed relatively unchanged POT1 protein levels in a pre vs. post-ALT cancer (Kamranvar 2013). What's much more interested is the distribution of variant telomeric repeats found in ALT telomeres (Conomos 2012). Telomerase cells appear to have mostly TTAGGG repeats in their telomeres, but ALT telomeres also seem to have TCAGGG repeats. There is a very interesting model of ALT that invovles these TCAGGG repeats getting bound by nuclear receptors (Conomos 2012).
 
 Here are common telomeric sequences found in TEL+:
@@ -757,7 +806,8 @@ This is the nuclear receptor recruitment model first presented in Conomos 2012:
 
 ![Conomos_2012_Variant_Repeat_ALT_Model](/Assets/Conomos_2012_Variant_Repeat_ALT_Model.jpg "Conomos_2012_Variant_Repeat_ALT_Model")
 
-# TERT Promoter Compaction is Found in ALT
+<a name="TERT_Promoter_Compaction_is_Found_in_ALT"></a>
+##### TERT Promoter Compaction is Found in ALT
 ALT cells commonly have long, heterogenous telomere lengths (Kumakura 2005). Mouse embryonic stem cells deficient for DNMT have HUGE telomeres. Under normal conditions, mouse subtelomeres are heavily methylated, BUT that is not the case in mESC deficient for DNMT. The lack of DNMT increased the rate of telomeric sister chromatid exchanges (T-SCE), and ALT-associated Promyelocytic Nuclear Bodies (APBs). T-SCE and APBs are both common features of ALT activity. The authors concluded that the increased telomeric recombination MIGHT lead to telomere length changes, BUT they do not exclude the involvement of telomerase in the weirdly long telomeres that were seen (Gonzalo 2006). Luckily, I found these two other papers that go into more detail about TERT chromatin compaction in ALT!
 
 Atkinson 2005 found that chromatin modifications of hTR and hTERT promoters were commonly found in ALT activity. Treatment of ALT+ cells with 5-AZC or Trichostatin A lead to chromatin remodeling of hTR and hTERT. This induced telomerase expression. Interestingly enough they found that mehtylated Lys20 Histon H4 was not associated with gene expression, BUT does seem to be ALT specific (Atkinson 2005). This might be a new marker of ALT activity! Acetylation of H3K9 and methylation of H3K4 is known to be associated with an open chromatin conformation. In Kumakura 2005, the authors found that ALT+ cells had H3K9 methylation and low levels of H3K4 methylation and H3K9+H3K14 acetylations. The ratio of H3K9 methylation / H3K4 methylation was different across ALT+ and TEL+ cell lines. They found that treating ALT+ cells with TSC or 5-AZC caused a reversion from complete to partial methylation of the CpG islands on the hTERT promoter. They switched an E6CL TEL+ line to TEL- and it was able to grow for well over 240 population doublings (Kumakura 2005). That's some ALT activity right there!
@@ -765,12 +815,14 @@ Atkinson 2005 found that chromatin modifications of hTR and hTERT promoters were
 
 (Kumakura 2005)
 
-#### Getting The hTERT Sequence
+<a name="Getting_The_hTERT_Sequence"></a>
+###### Getting The hTERT Sequence
 The UniProt entry O14746 is for hTERT https://www.uniprot.org/uniprot/O14746. Following GeneID 7015 gets TERT telomerase reverse transcriptase for humans https://www.ncbi.nlm.nih.gov/gene/7015. Note that the reverse arrow on TERT indicates that the sequence is on the reverse strand (this will become important later). I downloaded the FASTA as "NC_000005.10_hChrom5_TERT_CpG_Start.fasta". A quick text search shows that the start codon is at position 59. Take care with this sequence cause it's the reverse complement of the actual sequence!
 
 ![hTERT_NCBI_Reverse_Strand](/Assets/hTERT_NCBI_Reverse_Strand.jpg "hTERT_NCBI_Reverse_Strand")
 
-#### Obtaining hTERT WITH the CpG Island Region
+<a name="Obtaining_hTERT_WITH_the_CpG_Island_Region"></a>
+###### Obtaining hTERT WITH the CpG Island Region
 Stay with me ... we're about to dig a bit into the literature! The hTERT sequence that I grabbed from NCBI DOES NOT contain the CpG island for hTERT. It doesn't even contain the normal promoter region for hTERT! Cong 1999 reports that the core hTERT promoter region is from -330 to +361 bp of the ATG start codon. HOWEVER, Kumakura 2005 found the hTERT CpG island to be from 654 bp upstream to 510 bp downstream of the ATG start codon, so this is the actual region that I need to grab! 
 
 Grabbing the hTERT FASTA sequence from https://www.ncbi.nlm.nih.gov/gene/7015 INITIALLY is from: 1253167 to: 1295047. Checking Cong 1999 and The FASTA file, I can see that the hTERT start codon, AND a bit more of that region, of "ATGCCGCGCGCT" is at the end of the first FASTA line, which is 59 in from the left (59 is A of ATG). CpG is 654 bp upstream of the transcriptoin start site, SO going 595 back from current start site 1253167-595 = 1252572. 1252572 should be the start of the CpG island, RIGHT?!? WRONG!!! ... Why aren't I getting any more nucleotides before the current start read?!?!? OH!!! I'm looking at the reverse complement, lol! ;) 
@@ -778,7 +830,8 @@ Grabbing the hTERT FASTA sequence from https://www.ncbi.nlm.nih.gov/gene/7015 IN
 It should be  1295047 + 595 = 1295642 YESSSSSSS, that's right :) Now I have more at the beginniig, so "atgccgcgcgctccccgct" is fully searchable! This is the new range:
 https://www.ncbi.nlm.nih.gov/nuccore/NC_000005.10?report=fasta&from=1253167&to=1295642&strand=true. I saved the FASTA as NC_000005.10_hChrom5_TERT_CpG_Start.fasta. 
 
-#### Analyzing the Alleged CpG Promoter Region
+<a name="Analyzing_the_Alleged_CpG_Promoter_Region"></a>
+###### Analyzing the Alleged CpG Promoter Region
 Dessain 2000 reported that the hTERT CpG island has a GC content of 74% and a CG:GC ratio of 0.87. Is that what I get for the same region?!? I wrote code in R to get the GC content and CG:GC ratio of the hTERT CpG promoter region that I identified. I didn't comment my code ... I am sorry. Note that I picked i=1164 cause Kumakura 2005 says that the hTERT CpG island to be from 654 bp upstream to 510 bp downstream of the ATG start codon, which is 654 + 510 = 1164 :) Here's R code that I didn't bother commenting :( 
 
 ```r
@@ -872,7 +925,8 @@ The lazily unlabeled output is:
 
 My GC content is 58.5 % and the ratio of CpG/GpC is 0.54. Recall that Dessain 2000 reported that the hTERT CpG island has a GC content of 74% and a CG:GC ratio of 0.87. THE REGION THAT IS NOT A CpG ISLAND IS 15.5% off of the GC content and 0.33 off of the CpG/GpC. I could dig into this with more statistical rigor, but I think you get the idea. I'M EXCITED!!! This was a really cool biological programming exercise!!! :D
 
-# STN1 Mutation Triggers ALT in Yeast
+<a name="STN1_Mutation_Triggers_ALT_in_Yeast"></a>
+#### STN1 Mutation Triggers ALT in Yeast
 ADDED STUFF
 Counter 1996 The roles of telomeres and telomerase in cell life span
 Yeast also can undergo a cellular catastrophe
@@ -892,15 +946,17 @@ ALT is a recombination-based telomere maintenace mechanism used by some human ca
 
 ![Yeast_Protein_Alignment](/Assets/Yeast_Protein_Alignment.jpg "Yeast_Protein_Alignment")
 
-#### Obtaining STN1 From 3 Yeast Organisms
+<a name="Obtaining_STN1_From_3_Yeast_Organisms"></a>
+###### Obtaining STN1 From 3 Yeast Organisms
 The paper states that the S. cerevisiae (Sc) and Candida glabrata (Cgl) GenBank accession numbers are P_38960 and XP_448655. HOWEVER, it wasn't that easy to find the sequences cause those accession numbers are from back in 2005. NCBI says "The following term was not found in Nucleotide: P_38960." The XP_448655 is here: https://www.ncbi.nlm.nih.gov/protein/XP_448655. I had trouble finding the sequence for K. lactis they were talking about. Here's the crazy search term that I used on NCBI:
 
 and it's the only result (other than whole chromosome chunks) w/ this crazy search term I made:
 (((stn1) NOT "Pyrenophora tritici-repentis"[porgn:__txid45151] NOT "Fusarium fujikuroi"[porgn:__txid5127] NOT "[Candida] glabrata"[porgn:__txid5478] NOT "Hortaea werneckii"[porgn:__txid91943] NOT "Saccharomyces cerevisiae"[porgn:__txid4932]) NOT "Metarhizium robertsii"[porgn:__txid568076] NOT "Fusarium sp. FIESC_5 CS3069"[porgn:__txid1318460] NOT "Fusarium pseudograminearum CS3487"[porgn:__txid1318458] NOT "Fusarium pseudograminearum CS3427"[porgn:__txid1318457] NOT "Fusarium pseudograminearum CS3220"[porgn:__txid1318456] NOT "Fonsecaea multimorphosa"[porgn:__txid979981] NOT "Cladophialophora immunda"[porgn:__txid569365] NOT "Aspergillus nidulans FGSC A4"[porgn:__txid227321] NOT "Candida viswanathii"[porgn:__txid5486] NOT "Zygosaccharomyces bailii"[porgn:__txid4954] NOT "Metarhizium anisopliae"[porgn:__txid5530] NOT "Aspergillus flavus"[porgn:__txid5059] NOT "Talaromyces atroroseus"[porgn:__txid1441469] NOT "[Candida] auris"[porgn:__txid498019] NOT "Zygosaccharomyces rouxii"[porgn:__txid4956] NOT "[Candida] boidinii"[porgn:__txid5477] NOT "Komagataella phaffii"[porgn:__txid460519] NOT "Aspergillus fumigatus"[porgn:__txid746128] NOT "Candida albicans SC5314"[porgn:__txid237561] NOT "Yarrowia lipolytica"[porgn:__txid4952]) AND "Kluyveromyces lactis"[porgn:__txid28985] 
 
 ... I'm pretty sure that it's NCBI Reference Sequence: XM_452728.1, titled "Kluyveromyces lactis uncharacterized protein (KLLA0_C11825g), partial mRNA" BECAUSE that entry has this note "cerevisiae YDR082W STN1 Protein involved in telomere length regulation functions in telomere metabolism during late S phase." S. ceriviasa yeast was easier to find cause it's got stn1p in the title :) https://www.ncbi.nlm.nih.gov/nuccore/NM_001180390.1
-                     
-#### Attempt to Replicate Lyer 2005 Figure 4
+
+<a name="Attempt_to_Replicate_Lyer_2005_Figure_4"></a>                     
+###### Attempt to Replicate Lyer 2005 Figure 4
 I used the R msa library to align the three yeast organism STN1 proteins that were obtained above. I'm not too happy with this alignment :( The authors state that "The protein
 sequences were aligned in ClustalW using default values." HOWEVER, the R msa package that I used was set to use ClustalW default values and it didn't replicate Figure 4 from Lyer 2005. The protein sequences seem to match (at least by eye). I'm not really sure where I went wrong here. I've only played with sequence alignment a little bit, so I'm probably doing something wrong. Anyway, here's the code:
 
@@ -918,8 +974,8 @@ showLogo="none", askForOverwrite=FALSE, verbose=FALSE)
 
 ![Aligning_Yeast_STN1_Proteins](/Assets/Aligning_Yeast_STN1_Proteins.jpg "Aligning_Yeast_STN1_Proteins")
 
-
-#### Aligning Human, Yeast, and Frog STN1
+<a name="Aligning_Human_Yeast_and_Frog_STN1"></a>
+###### Aligning Human, Yeast, and Frog STN1
 Cohen 2002 reported that Xenopus laevis form extrachromosomal circular telomeric DNA. This is commonly associated with ALT! I briefly looked around for reptile ALT and this is the closest thing I could find. I'm not convinced that the activity reported by Cohen 2002 was actually ALT. This alignment isn't really related to anything. I just made it mostly for fun ... well, it's kinda connected to ALT and I know a herpetologist that might enjoy seeing frogs getting included in this repo ;) 
 
 Cohen 2002 Formation of extrachromosomal circles from telomeric DNA in Xenopus laevis 
@@ -933,6 +989,7 @@ showLogo="none", askForOverwrite=FALSE, verbose=FALSE)
 ```
 ![Klactis_Xenopus_Human_STN1_Proteins_AA_alignment](/Assets/Klactis_Xenopus_Human_STN1_Proteins_AA_alignment.jpg "Klactis_Xenopus_Human_STN1_Proteins_AA_alignment")
 
+<a name="Citations"></a>
 # Citations
 NOTE: I AM WAYYYYYY BEHIND ON UPDATING THE CITATIONS LIST ... SORRY! Please message me if you have any questions about the papers that I mentioned throughout this review :)
 * Cheng 2012 Caenorhabditis elegans POT-2 telomere protein represses a mode of alternative lengthening of telomeres with normal telomere lengths
