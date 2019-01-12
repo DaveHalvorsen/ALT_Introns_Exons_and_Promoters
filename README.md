@@ -7,12 +7,13 @@ In 2012, three leading telomere biologists proposed a potentially universal anti
 
 It is estimated that 10-15% of cancers use ALT, a homologous recombination-based telomere extension mechanism (Cesare 2010). These ALT cancers would likely not respond to anti-telomerase therapies. Additionally, it has been reported that TEL cancers can switch to ALT and that some tumors may contain both ALT and TEL cancer cells. There are plenty of anti-telomerase clinical trials (Harley 2008), but there has been very little progression with ALT. The Science article calls for more ALT research and specifically for further development of ALT tests, like the C-circle assay (Shay 2012).
 
-The lack of ALT research progress was what inspired me to spend five years working as a Research Associate at the SENS Research Foundation. I helped co-create a high-throughput version of the [the C-circle assay](https://patents.google.com/patent/WO2015179557A1/en), which Jeremy Henson is now using to [screen for ALT inhibitors](https://research.unsw.edu.au/people/dr-jeremy-david-henson). In this repository I have reviewed the telomere literature to address problems not covered in the 2012 Science article:
+The lack of ALT research progress was what inspired me to spend five years working as a Research Associate at the SENS Research Foundation. I helped co-create a high-throughput version of the [the C-circle assay](https://patents.google.com/patent/WO2015179557A1/en), which Jeremy Henson is now using to [screen for ALT inhibitors](https://research.unsw.edu.au/people/dr-jeremy-david-henson). **In this repository I have reviewed the telomere literature to address problems not covered in the 2012 Science article:**
 
 * Anti-Telomerase Therapy Causes Stem Cell Telomere Shortening
 * The Ever Shorter Telomere (EST) Phenotype *Will Not* Respond to TMM inhibition
+* Anti-ALT Therapy Might Interfere with Stem Cell Telomeres OR the DNA Damage Response
 
-I have created mathematical models of telomeres in ALT and TEL and included small telomere-based bioinformatics projects. **Sections discussing introns, exons, or promoters are emboldened in the table of contents.**
+**I have created mathematical models of telomeres in ALT and TEL and included small telomere-based bioinformatics projects. _Sections discussing introns, exons, or promoters are emboldened in the table of contents._**
 
 # Table of Contents
 * <a href="#Telomeres_Shorten_with_Age">Telomeres Shorten with Age</a>
@@ -28,6 +29,7 @@ I have created mathematical models of telomeres in ALT and TEL and included smal
 	* <a href="#Model_of_Inhibiting_Telomerase">Model of Inhibiting Telomerase</a>
 * <a href="#Alternative_Lengthening_of_Telomeres">Alternative Lengthening of Telomeres</a>
 	* <a href="#ALT_Telomeres_are_Long_and_Heterogenous">ALT Telomeres are Long and Heterogenous</a>
+	* <a href="#ALT_Telomere_Shortening">ALT Telomere Shortening</a>
 	* <a href="#ALT_Telomeres_Have_C_rich_Overhangs">ALT Telomeres Have C-rich Overhangs</a>
 	* **<a href="#POT_1_Deficiency_Creates_ALT_C_Elegans_Strains">POT-1 Deficiency Creates ALT+ C. Elegans Strains</a>**
 		* **<a href="#Multiple_Sequence_Alignment_of_pot_1_Genes">Multiple Sequence Alignment of pot-1 Genes</a>**
@@ -47,11 +49,15 @@ I have created mathematical models of telomeres in ALT and TEL and included smal
 		* <a href="#Obtaining_STN1_From_3_Yeast_Organisms">Obtaining STN1 From 3 Yeast Organisms</a>
 		* <a href="#Attempt_to_Replicate_Lyer_2005_Figure_4">Attempt to Replicate Lyer 2005 Figure 4</a>
 		* <a href="#Aligning_Human_Yeast_and_Frog_STN1">Aligning Human, Yeast, and Frog STN1</a>
+* Ever Shorter Telomeres <a href="#Ever_Shorter_Telomeres">Ever Shorter Telomeres</a>
+	* <a href="#Mild_Telomerase_Activity">Mild Telomerase Acitivty Can Keep Cancers Dividing Long Enough for Metastasis</a>
+	* <a href="#Long_Initial_Telomere_Lengths">Long Initial Telomere Lengths Can Keep Cancers Dividing Long Enough for Metastasis</a>
+* <a href="#Conclusion">Conclusion</a>
 * <a href="#Citations">Citations</a>
 
 <a name="Telomeres_Shorten_with_Age"></a>
 # Telomeres Shorten with Age
-Human telomeres are estimated to be 5,000 - 15,000 base pairs at birth (Sanders 2013). The end replication problem shortens telomeres by approximately 50 bp with each round of cell division (Proctor 2002, Suda 2002). 
+Human telomeres are estimated to be 5,000 - 15,000 base pairs at birth (Sanders 2013, Blackburn 2001). The end replication problem shortens telomeres by approximately 50 bp with each round of cell division (Proctor 2002, Suda 2002, Hastie 1990). 
 
 <a name="Simple_1_Telomere_Shortening_Model"></a>
 #### Simple 1 Telomere Shortening Model
@@ -100,7 +106,7 @@ Here are the last couple of lines of output:
 
 <a name="Simple_1_Telomere_Model_Damage_Checkpoint"></a>
 #### Simple 1 Telomere Model & Damage Checkpoint
-The situation is more complicated than that model. A DNA damage checkpoint will be triggered at around 5k bp. If cell cycle checkpoints are intact, the cell will senesce at around 5 kb. If oncogenic changes have occurred, the cell will divide until around 3k bp. There will be genomic instability, which will lead to more mutations and eventual cell death UNLESS a telomere maintenance mechanism stabilizes the telomeres (Harley 2008, Shay 2012). 
+The situation is more complicated than that model. A DNA damage checkpoint will be triggered at around 5k bp. If cell cycle checkpoints are intact, the cell will senesce at around 5 kb. If oncogenic changes have occurred, the cell will divide until around 3k bp. The subtelomeric region is estimated to be between 2-4 kbp (Counter 1996). There will be genomic instability, which will lead to more mutations and eventual cell death UNLESS a telomere maintenance mechanism stabilizes the telomeres (Harley 2008, Shay 2012). 
 
 ![Harley_2008_Box1a](/Assets/Harley_2008_Box1a.jpg "Harley_2008_Box1a")
 
@@ -525,76 +531,79 @@ I think there are still more details that I should take into account for this id
 Forgive me for not representing actual ALT activity. It was pretty tough just getting the code to inititate ALT telomeres!
 
 ```r
-# human cells have 92 telomeres at the G0 phase of the cell cycle.
-# 2 pairs of chromosomes * 23 chromosomes * 2 (p and q arms) = 92 telomeres
-# here are all of the names that I wrote out by hand ... boring! I should've written a function in Python to do this, lol!
-autosome_pairs_sex_chromosomes_and_arms <- c("c1a1p", "c1a1q","c2a1p","c2a1q","c3a1p","c3a1q","c4a1p","c4a1q","c5a1p","c5a1q","c6a1p","c6a1q","c7a1p","c7a1q","c8a1p","c8a1q","c9a1p","c9a1q","c10a1p","c10a1q","c11a1p","c11a1q","c12a1p","c12a1q","c13a1p","c13a1q","c14a1p","c14a1q","c15a1p","c15a1q","c16a1p","c16a1q","c17a1p","c17a1q","c18a1p","c18a1q","c19a1p","c19a1q","c20a1p","c20a1q","c21a1p","c21a1q","c22a1p","c22a1q","cXp","cXq","c1a2p","c1a2q","c2a2p","c2a2q","c3a2p","c3a2q","c4a2p","c4a2q","c5a2p","c5a2q","c6a2p","c6a2q","c7a2q", "c8a2p","c8a2q","c7a2p","c9a2q","c9a2p","c102q","c102p","c11a2q","c11a2p","c12a2p","c12a2q", "c13a2p","c13a2q", "c142p","c142q", "c15a2p", "c15a2q","c16a2p","c16a2q","c172p","c172q","c18a2p","c18a2q","c19a2p", "c19a2q","c20a2p","c20a2q", "c21a2p","c21a2q","c22a2p","c22a2q","cYp","cYq")
-length(autosome_pairs_sex_chromosomes_and_arms)
 # it creates 92 telomeres
 ALT_telomere_lengths <- vector("list", 92)
 # these are placeholders for values that will be used throughout the program
 current_telomere_length_total <- 0
 current_telomere_length_Q <- 0
 current_telomere_length_P <- 0
+list_of_PQ_ratios <- vector("list", 46)
+text_of_PQ_numbers <- vector("list", 46)
 # i keeps track of the current interation. Note that each run has two iterations of adding to the tel length list
 i <- 1
+j <- 1
 generate_ALT_telomeres <- function() {
   # runs for 46 items (cause 92 total and creating p and q w/ each loop)
   for(length in 1:46){
     # determine the total telomere length between 500 and 50,000 bp
-    current_telomere_length <- runif(1, min=500, max=50000)
+    #current_telomere_length <- runif(1, min=500, max=50000)
+    #current_telomere_length <- rnorm(1, 15000, 2000)
+    # current_telomere_length <- rnorm(1, 20000, 1250) + runif(1, min=500, max=20000)
+    current_telomere_length <- runif(1, min=10000, max=50000)
     # determine the p/q ratio between 0.1 and 10
-    P_to_Q_ratio <- runif(1, 0.1, 10)
-    # get the q arm length. This is some cool math! BUT, it might not be obvious
-    # there are two formulas here
-    # 1) p arm + q arm = total length
-    # 2) p arm / q arm = ratio => p arm = ratio * q arm
-    # substituting 2 into 1: ratio * q arm + q arm = total length
-    current_telomere_length_Q <- current_telomere_length/(P_to_Q_ratio+1)
-    # get the p arm length
-    current_telomere_length_P <- current_telomere_length - current_telomere_length_Q
+    P_to_Q_ratio <- runif(1, -10, 10)
+    if(P_to_Q_ratio == 1) {
+      current_telomere_length_P <- current_telomere_length * 0.5
+      current_telomere_length_Q <- current_telomere_length * 0.5
+    } else if(P_to_Q_ratio > 1) {
+      # P_to_Q_ratio <- runif(1, 0.1, 10)
+      current_telomere_length_Q <- current_telomere_length/(runif(1, 0.1, 10)+1)
+      current_telomere_length_P <- current_telomere_length - current_telomere_length_Q
+    } else if(P_to_Q_ratio < 1) {
+      current_telomere_length_P <- current_telomere_length/(runif(1, 0.1, 10)+1)
+      current_telomere_length_Q <- current_telomere_length - current_telomere_length_P
+    }
+    # current_telomere_length_P <- current_telomere_length - current_telomere_length_Q
     # get the sum (this number is already known. I'm using it for error checking)
     current_sum_p_q <- current_telomere_length_Q+current_telomere_length_P
     # get the p/q ratio (this number is already known. I'm using it for error checking)
     determine_P_to_Q_ratio <- current_telomere_length_P / current_telomere_length_Q
+    list_of_PQ_ratios[j] <- determine_P_to_Q_ratio
+    text_of_PQ_numbers[j] <- paste("P is ", current_telomere_length_P, " Q is ", current_telomere_length_Q)
     # print out the math to check by hand
-    print(paste("current total length is ", current_telomere_length, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " sum is ", current_sum_p_q))
-    print(paste("current P_to_Q_ratio is ", P_to_Q_ratio, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " P_to_Q_ratio is ", determine_P_to_Q_ratio))
-    print("")
+    #print(paste("current total length is ", current_telomere_length, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " sum is ", current_sum_p_q))
+    #print(paste("current P_to_Q_ratio is ", P_to_Q_ratio, "Q is ", current_telomere_length_Q, "P is ", current_telomere_length_P, " P_to_Q_ratio is ", determine_P_to_Q_ratio))
+    #print("")
     # store current p and q arms
     ALT_telomere_lengths[i] <- current_telomere_length_P 
     i <- i + 1
     ALT_telomere_lengths[i] <- current_telomere_length_Q
     i <- i + 1
+    
+    j <- j + 1
   }
-  return(ALT_telomere_lengths)
+  #return(ALT_telomere_lengths)
+  #return(list_of_PQ_ratios)
+  newList <- list("lengths" = ALT_telomere_lengths, "ratios" = list_of_PQ_ratios, "text" = text_of_PQ_numbers)
+  return(newList)
 }
-ALT_telomere_lengths <- generate_ALT_telomeres()
+newList <- generate_ALT_telomeres()
+
+ALT_telomere_lengths <- newList$lengths
+list_of_PQ_ratios <- newList$ratios
+text_of_PQ_numbers <- newList$text
+#ALT_telomere_lengths <- generate_ALT_telomeres()
+#list_of_PQ_ratios <- generate_ALT_telomeres()
 ```
 
-Here's the printed output. Note that I made it caluclate and return all of the values, so I could check them by eye. The math in the code isn't immediately obvious and it's always important to check your code and your math for errors! Here are the first couple of lines of code. Give them a math check!
+Here is a logarithmic barplot of the P/Q ratios. I added a line at the P/Q=1 position.
 
-```sh
-[1] "current total length is  29483.7727698032 Q is  5957.23538429581 P is  23526.5373855074  sum is  29483.7727698032"
-[1] "current P_to_Q_ratio is  3.94923750159796 Q is  5957.23538429581 P is  23526.5373855074  P_to_Q_ratio is  3.94923750159796"
-[1] ""
-[1] "current total length is  5732.48566687107 Q is  1917.02364226407 P is  3815.462024607  sum is  5732.48566687107"
-[1] "current P_to_Q_ratio is  1.99030514829792 Q is  1917.02364226407 P is  3815.462024607  P_to_Q_ratio is  1.99030514829792"
-[1] ""
-[1] "current total length is  40303.4766089404 Q is  6558.95629193797 P is  33744.5203170024  sum is  40303.4766089404"
-[1] "current P_to_Q_ratio is  5.14480030282866 Q is  6558.95629193797 P is  33744.5203170024  P_to_Q_ratio is  5.14480030282866"
-[1] ""
-[1] "current total length is  32052.6402043179 Q is  9641.5347792759 P is  22411.105425042  sum is  32052.6402043179"
-[1] "current P_to_Q_ratio is  2.32443339552265 Q is  9641.5347792759 P is  22411.105425042  P_to_Q_ratio is  2.32443339552265"
-[1] ""
-[1] "current total length is  26283.9130933862 Q is  4428.17189769478 P is  21855.7411956914  sum is  26283.9130933862"
-[1] "current P_to_Q_ratio is  4.93561264120508 Q is  4428.17189769478 P is  21855.7411956914  P_to_Q_ratio is  4.93561264120508"
-```
+![P_to_Q_Ratio](/Assets/P_to_Q_Ratio.jpg "P_to_Q_Ratio")
 
 Here are those telomeres plotted as a bar graph:
 
 ```r
-# This is a disgusting mess of overhwelming data
+# This is a disgusting mess of overwhelming data
 barplot(as.numeric(ALT_telomere_lengths), names.arg=autosome_pairs_sex_chromosomes_and_arms, las=2, main="ALT+ Telomere Lengths for Chromosomes", xlab="Chromosome", ylab="Telomere Lengths (bp)", ylim=c(0,50000))
 abline(h=5000, col="red", lwd=3)
 abline(h=3000, col="black", lwd=3)
@@ -619,6 +628,31 @@ abline(h=3000, col="black", lwd=3)
 ```
 
 ![ALT_telomeres_47_92](/Assets/ALT_telomeres_47_92.jpg "ALT_telomeres_47_92")
+
+<a name="ALT_Telomere_Shortening"></a>
+#### ALT Telomere Shortening
+If ALT is inhibited, telomeres may shorten at a rate of -175 bp/PD (Potts 2005).
+```r
+# Potts 2005 -175 bp / PD for inhibition of SMC5/6 complex. 36 PD for cellular senescence
+play_ALT_telomere_lengths <- ALT_chromosome_lengths
+dividing <- TRUE
+divisions <- 0
+while(dividing) {
+  barplot(as.numeric(play_ALT_telomere_lengths), las=2, main=paste("ALT+ Telomere Lengths After ", divisions, "Divisions"), ylim=c(0,50000))
+  abline(h=5000, col="red", lwd=3)
+  abline(h=3000, col="black", lwd=3)
+  play_ALT_telomere_lengths <- as.numeric(play_ALT_telomere_lengths) - 175
+  #for(i in length(1:46)) {
+  #  current_total <- 
+  #}
+  if (min(play_ALT_telomere_lengths) < 3000){
+    dividing <- FALSE
+  }
+  divisions <- divisions + 1
+}
+```
+
+![ALT_telomeres_after_45_divisions](/Assets/ALT_telomeres_after_45_divisions.jpg "ALT_telomeres_after_45_divisions")
 
 <a name="ALT_Telomeres_Have_C_rich_Overhangs"></a>
 #### ALT Telomeres Have C-rich Overhangs
@@ -1003,6 +1037,102 @@ showLogo="none", askForOverwrite=FALSE, verbose=FALSE)
 ```
 ![Klactis_Xenopus_Human_STN1_Proteins_AA_alignment](/Assets/Klactis_Xenopus_Human_STN1_Proteins_AA_alignment.jpg "Klactis_Xenopus_Human_STN1_Proteins_AA_alignment")
 
+<a name="Ever_Shorter_Telomeres"></a>
+# Ever Shorter Telomeres
+EST has two cases: mild telomerase activity and extrememly long initial telomere lengths.
+
+<a name="Mild_Telomerase_Activity"></a>
+#### Mild Telomerase Acitivty Can Keep Cancers Dividing Long Enough for Metastasis
+
+```r
+# Viceconte 2017 ~10 kb at p12 down to ~5kb LB2901-MEL (hTERT neg ), LB3129-MELA, and LB3129-MELB (hTR neg )
+# Viceconte 2017 down to ~6 and 3kb LB2870-MEL and LB2687-MEL TRAP pos melanoma, shortening in culture ... did not go through crisis?
+# how many population doublings?
+# LB2870-MEL/TEL + (p21), LB2687-MEL/TEL + (p25), and in LB2901-MEL (p16) and LB3129-MELB (p21)
+# 3129 mela p22 crisis, 3129 melb p26 crisis, lb2901 mel p25 crisis
+viceconte_telomere_lengths <- list()
+viceconte_number_cells <- list()
+no_telomerase_lengths <- list()
+EST_telomerase_start_length <- 4000
+no_telomerase_start_length <- 4000
+current_length <- EST_telomerase_start_length
+current_no_telomerase_length <- no_telomerase_start_length
+current_no_telomerase_division_number <- 0
+dividing <- TRUE
+division_number <- 0
+cell_number <- 1
+no_telomerase_number_cells <- 1
+while(dividing) {
+  viceconte_telomere_lengths[division_number] <- current_length
+  viceconte_number_cells[division_number] <- cell_number
+  
+  # telomere shortening
+  while(current_no_telomerase_length > 3000){
+    no_telomerase_lengths[current_no_telomerase_division_number] <- current_no_telomerase_length
+    current_no_telomerase_length <- current_no_telomerase_length -50
+    no_telomerase_number_cells <- no_telomerase_number_cells * 2
+    current_no_telomerase_division_number <- current_no_telomerase_division_number + 1
+  }
+  
+  current_length <- current_length - 50
+  # low-level telomerase
+  current_length <- current_length + 25
+  if(current_length < 3000) {
+    dividing <- FALSE
+  }
+  division_number <- division_number + 1
+  cell_number <- cell_number * 2
+  
+}
+print(division_number)
+print(cell_number)
+plot(as.numeric(viceconte_telomere_lengths), col="red", type="l", pch=19, lty=2, xlab="Division Number", ylab="Telomere Length (bp)", main="Telomere Shortening is Slowed with Ever Shorter Telomeres Activity")
+lines(as.numeric(no_telomerase_lengths), col="green", type="l", pch=19, lty=2)
+legend(20, 3800, legend=c("Ever Shorter Telomeres", "Normal Telomere Shortening"), col=c("red", "green"), lty=2:2, cex=0.8)
+#plot(as.numeric(no_telomerase_lengths))
+#plot(as.numeric(viceconte_number_cells))
+# plot(as.numeric(no_telomerase_number_cells))
+```
+
+![ever_short_telomerase_activity](/Assets/ever_short_telomerase_activity.jpg "ever_short_telomerase_activity")
+
+<a name="Long_Initial_Telomere_Lengths"></a>
+#### Long Initial Telomere Lengths Can Keep Cancers Dividing Long Enough for Metastasis
+
+```r
+# Dagg 2017 telomeres progressively shortening over 200 pd EST. single cell 40 cell divisions is 2^40 cells ~ 1 kg
+# assuming all cells survive, enough nutrients etc., prob need multiple rounds clonal evolution for enough mutations
+# telomerase during embryogenesis? no telomere trimming? NO t-cicrles in EST lines. unopposed telomerase during embryogenesis, excesisve tel lengthening 
+# COG-N-291 and LA-N-6 TRF mean 31.0 and 37.8 kb, highly heterogenous telomere lengths
+EST_long_start_length <- 15000
+current_length <- EST_long_start_length
+dividing <- TRUE
+division_number <- 0
+cell_number <- 1
+cell_number_list <- list()
+while(dividing) {
+  # telomere shortening
+  current_length <- current_length - 50
+  if(current_length < 3000) {
+    dividing <- FALSE
+  }
+  division_number <- division_number + 1
+  cell_number <- cell_number * 2
+  cell_number_list[division_number] <- cell_number
+}
+print(division_number)
+print(cell_number)
+plot(as.numeric(cell_number_list), xlim=c(1, 21), ylim=c(0, 1250000), col="red", type="p", pch=19, lty=2, xlab="Division Number", ylab="Cell Number", main="Ever Shorter Telomere Cells Can Divide Extensively")
+```
+
+![ever_shorter_long_telomeres](/Assets/ever_shorter_long_telomeres.jpg "ever_shorter_long_telomeres")
+
+<a name="Conclusion"></a>
+# Conclusion
+Inhibiting telomere maintenance mechanisms does initially seem like a universal approach to fighting cancer, but it does have faults. Telomerase inhibition does seem to fight cancer, but I have shown cases where it causes Hematopoietic Stem Cell problems. Preliminary evidence suggests that turning off the alternative lengthening of telomeres mechanism may slow down the DNA Damage Response and, it is possible, that stem cells require intermittent ALT activity. Evern if you ignore the issues with a dual inhibition approach to telomerase and ALT, there is still the problem of the Ever Shorter Telomeres phenotype. The mild telomerase activity found in certain EST cells may be stopped by anti-telomerase approaches. However, the long telomere EST cells with a dysfunctional telomere trimming mechanism will need an additional approach. The dual telomere maintenance mechanism approach may need to include a method of specifically trimming telomere lengths in cancer cells without shortening stem cell telomeres. It's an extradinarily complicated challenge, but certainly one that should receive continued research support. Other anti-cancer approaches like immunotherapy may be a better therapeutic approach.
+
+
+
 <a name="Citations"></a>
 # Citations
 NOTE: I AM WAYYYYYY BEHIND ON UPDATING THE CITATIONS LIST ... SORRY! Please message me if you have any questions about the papers that I mentioned throughout this review :)
@@ -1035,6 +1165,5 @@ NOTE: I AM WAYYYYYY BEHIND ON UPDATING THE CITATIONS LIST ... SORRY! Please mess
 * Murnane 1994 Telomere dynamics in an immortal human cell line
 * Telomere elongation in immortal human cells without detectable telomerase activity
 * Kamranvar 2013 Telomere dysfunction and activation of alternative lengthening of telomeres in B-lymphocytes infected by Epstein-Barr virus
-
-
-
+* Hastie 1990 Telomere reduction in human colorectal carcinoma and with aging
+* Blackburn 2001 Switching and signaling at the telomere
