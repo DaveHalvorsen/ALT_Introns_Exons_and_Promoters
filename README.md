@@ -12,7 +12,7 @@ The lack of ALT research progress was what inspired me to spend five years worki
 * Anti-Telomerase Therapy Causes Stem Cell Telomere Shortening
 * The Ever Shorter Telomere (EST) Phenotype *Will Not* Respond to TMM inhibition
 
-I have created mathematical models of telomeres in ALT and TEL and included small telomere-based bioinformatics projects. **_Sections discussing introns, exons, or promoters are emboldened and underlined in the table of contents._**
+I have created mathematical models of telomeres in ALT and TEL and included small telomere-based bioinformatics projects. **__Sections discussing introns, exons, or promoters are emboldened and underlined in the table of contents.__**
 
 # Table of Contents
 * <a href="#Telomeres_Shorten_with_Age">Telomeres Shorten with Age</a>
@@ -29,20 +29,20 @@ I have created mathematical models of telomeres in ALT and TEL and included smal
 * <a href="#Alternative_Lengthening_of_Telomeres">Alternative Lengthening of Telomeres</a>
 	* <a href="#ALT_Telomeres_are_Long_and_Heterogenous">ALT Telomeres are Long and Heterogenous</a>
 	* <a href="#ALT_Telomeres_Have_C_rich_Overhangs">ALT Telomeres Have C-rich Overhangs</a>
-	* **_<a href="#POT_1_Deficiency_Creates_ALT_C_Elegans_Strains">POT-1 Deficiency Creates ALT+ C. Elegans Strains</a>_**
-		* **_<a href="#Multiple_Sequence_Alignment_of_pot_1_Genes">Multiple Sequence Alignment of pot-1 Genes</a>_**
-		* **_<a href="#Multiple_Sequence_Alignment_of_pot_1_Proteins">Multiple Sequence Alignment of pot-1 Proteins</a>_**
-		* **_<a href="#Displaying_pot_1_Open_Reading_Frames">Displaying pot-1 Open Reading Frames</a>_**
-		* **_<a href="#Discussing_C_elegans_pot_1_Alternative_Splicing">Discussing C. elegans pot-1 Alternative Splicing</a>_**
-	* **_<a href="#ATRX_Exon_Deletion_is_Common_in_ALT">ATRX Exon Deletion is Common in ALT</a>_**
-		* **_<a href="#Getting_ATRX_DNA">Getting ATRX DNA</a>_**
-		* **_<a href="#Removing_ATRX_Exons_2_29">Removing ATRX Exons 2-29</a>_**
-		* **_<a href="#Sequence_Alignment_of_WT_ATRX_to_Mutant_ATRX">Sequence Alignment of WT ATRX to Mutant ATRX</a>_**
+	* **__<a href="#POT_1_Deficiency_Creates_ALT_C_Elegans_Strains">POT-1 Deficiency Creates ALT+ C. Elegans Strains</a>__**
+		* **__<a href="#Multiple_Sequence_Alignment_of_pot_1_Genes">Multiple Sequence Alignment of pot-1 Genes</a>__**
+		* **__<a href="#Multiple_Sequence_Alignment_of_pot_1_Proteins">Multiple Sequence Alignment of pot-1 Proteins</a_>_**
+		* **__<a href="#Displaying_pot_1_Open_Reading_Frames">Displaying pot-1 Open Reading Frames</a>__**
+		* **__<a href="#Discussing_C_elegans_pot_1_Alternative_Splicing">Discussing C. elegans pot-1 Alternative Splicing</a>__**
+	* **__<a href="#ATRX_Exon_Deletion_is_Common_in_ALT">ATRX Exon Deletion is Common in ALT</a>__**
+		* **__<a href="#Getting_ATRX_DNA">Getting ATRX DNA</a>__**
+		* **__<a href="#Removing_ATRX_Exons_2_29">Removing ATRX Exons 2-29</a>__**
+		* **__<a href="#Sequence_Alignment_of_WT_ATRX_to_Mutant_ATRX">Sequence Alignment of WT ATRX to Mutant ATRX</a>__**
 	* <a href="#Variants_Repeats_are_Found_in_ALT_Telomeres">Variants Repeats are Found in ALT Telomeres</a>
-	* **_<a href="#TERT_Promoter_Compaction_is_Found_in_ALT">TERT Promoter Compaction is Found in ALT</a>_**
-		* **_<a href="#Getting_The_hTERT_Sequence">Getting The hTERT Sequence</a>_**
-		* **_<a href="#Obtaining_hTERT_WITH_the_CpG_Island_Region">Obtaining hTERT WITH the CpG Island Region</a>_**
-		* **_<a href="#Analyzing_the_Alleged_CpG_Promoter_Region">Analyzing the Alleged CpG Promoter Region</a>_**
+	* **__<a href="#TERT_Promoter_Compaction_is_Found_in_ALT">TERT Promoter Compaction is Found in ALT</a>__**
+		* **__<a href="#Getting_The_hTERT_Sequence">Getting The hTERT Sequence</a>__**
+		* **__<a href="#Obtaining_hTERT_WITH_the_CpG_Island_Region">Obtaining hTERT WITH the CpG Island Region</a>__**
+		* **__<a href="#Analyzing_the_Alleged_CpG_Promoter_Region">Analyzing the Alleged CpG Promoter Region</a>__**
 	* <a href="#STN1_Mutation_Triggers_ALT_in_Yeast">STN1 Mutation Triggers ALT in Yeast</a>
 		* <a href="#Obtaining_STN1_From_3_Yeast_Organisms">Obtaining STN1 From 3 Yeast Organisms</a>
 		* <a href="#Attempt_to_Replicate_Lyer_2005_Figure_4">Attempt to Replicate Lyer 2005 Figure 4</a>
