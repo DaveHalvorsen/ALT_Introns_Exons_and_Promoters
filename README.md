@@ -1,4 +1,18 @@
-# A Universal Cure for Cancer?
+# A Durable Anti-Cancer Approach?
+In 2012, three leading telomere biologists proposed a potentially universal anticancer approach: telomere maintenance mechanism (TMM) inhibition (Shay 2012). Telomeres shorten with every cell division eventually leading to cellular senescence. 85-90% of cancers use telomerase to extend telomeres and most normal cells do not express telomerase. Anti-telomerase cancer therapies have been in the literature for at least a decade (Suda 2002), so that alone isn't inherently interesting. The unique aspect of this 2012 Science article is the inclusion of the alternative lengthening of telomeres (ALT) mechanism as part of the inhibition scheme.
+
+![Shay_Inhibiting_ALT_and_TEL](/Assets/Shay_Inhibiting_ALT_and_TEL.jpg "Shay_Inhibiting_ALT_and_TEL")
+
+(Shay 2012)
+
+It is estimated that 10-15% of cancers use ALT, a homologous recombination-based telomere extension mechanism (Cesare 2010). These ALT cancers would likely not respond to anti-telomerase therapies. Additionally, it has been reported that TEL cancers can switch to ALT and that some tumors may contain both ALT and TEL cancer cells. There are plenty of anti-telomerase clinical trials (Harley 2008), but there has been very little progression with ALT. The Science article calls for more ALT research and specifically for further development of ALT tests, like the C-circle assay (Shay 2012).
+
+The lack of ALT research progress was what inspired me to spend five years working as a Research Associate at the SENS Research Foundation. I helped co-create a high-throughput version of the [the C-circle assay](https://patents.google.com/patent/WO2015179557A1/en), which Jeremy Henson is now using to [screen for ALT inhibitors](https://research.unsw.edu.au/people/dr-jeremy-david-henson). In this repository I have reviewed the telomere literature to address problems not covered in the 2012 Science article:
+
+* Anti-Telomerase Therapy Causes Stem Cell Telomere Shortening
+* The Ever Shorter Telomere (EST) Phenotype *Will Not* Respond to TMM inhibition
+
+I have created mathematical models of telomeres in ALT and TEL and included small telomere-based bioinformatics projects. **_Sections discussing introns, exons, or promoters are emboldened and underlined in the table of contents._**
 
 # Table of Contents
 * <a href="#Telomeres_Shorten_with_Age">Telomeres Shorten with Age</a>
@@ -15,20 +29,20 @@
 * <a href="#Alternative_Lengthening_of_Telomeres">Alternative Lengthening of Telomeres</a>
 	* <a href="#ALT_Telomeres_are_Long_and_Heterogenous">ALT Telomeres are Long and Heterogenous</a>
 	* <a href="#ALT_Telomeres_Have_C_rich_Overhangs">ALT Telomeres Have C-rich Overhangs</a>
-	* <a href="#POT_1_Deficiency_Creates_ALT_C_Elegans_Strains">POT-1 Deficiency Creates ALT+ C. Elegans Strains</a>
-		* <a href="#Multiple_Sequence_Alignment_of_pot_1_Genes">Multiple Sequence Alignment of pot-1 Genes</a>
-		* <a href="#Multiple_Sequence_Alignment_of_pot_1_Proteins">Multiple Sequence Alignment of pot-1 Proteins</a>
-		* <a href="#Displaying_pot_1_Open_Reading_Frames">Displaying pot-1 Open Reading Frames</a>
-		* <a href="#Discussing_C_elegans_pot_1_Alternative_Splicing">Discussing C. elegans pot-1 Alternative Splicing</a>
-	* <a href="#ATRX_Exon_Deletion_is_Common_in_ALT">ATRX Exon Deletion is Common in ALT</a>
-		* <a href="#Getting_ATRX_DNA">Getting ATRX DNA</a>
-		* <a href="#Removing_ATRX_Exons_2_29">Removing ATRX Exons 2-29</a>
-		* <a href="#Sequence_Alignment_of_WT_ATRX_to_Mutant_ATRX">Sequence Alignment of WT ATRX to Mutant ATRX</a>
+	* **_<a href="#POT_1_Deficiency_Creates_ALT_C_Elegans_Strains">POT-1 Deficiency Creates ALT+ C. Elegans Strains</a>_**
+		* **_<a href="#Multiple_Sequence_Alignment_of_pot_1_Genes">Multiple Sequence Alignment of pot-1 Genes</a>_**
+		* **_<a href="#Multiple_Sequence_Alignment_of_pot_1_Proteins">Multiple Sequence Alignment of pot-1 Proteins</a>_**
+		* **_<a href="#Displaying_pot_1_Open_Reading_Frames">Displaying pot-1 Open Reading Frames</a>_**
+		* **_<a href="#Discussing_C_elegans_pot_1_Alternative_Splicing">Discussing C. elegans pot-1 Alternative Splicing</a>_**
+	* **_<a href="#ATRX_Exon_Deletion_is_Common_in_ALT">ATRX Exon Deletion is Common in ALT</a>_**
+		* **_<a href="#Getting_ATRX_DNA">Getting ATRX DNA</a>_**
+		* **_<a href="#Removing_ATRX_Exons_2_29">Removing ATRX Exons 2-29</a>_**
+		* **_<a href="#Sequence_Alignment_of_WT_ATRX_to_Mutant_ATRX">Sequence Alignment of WT ATRX to Mutant ATRX</a>_**
 	* <a href="#Variants_Repeats_are_Found_in_ALT_Telomeres">Variants Repeats are Found in ALT Telomeres</a>
-	* <a href="#TERT_Promoter_Compaction_is_Found_in_ALT">TERT Promoter Compaction is Found in ALT</a>
-		* <a href="#Getting_The_hTERT_Sequence">Getting The hTERT Sequence</a>
-		* <a href="#Obtaining_hTERT_WITH_the_CpG_Island_Region">Obtaining hTERT WITH the CpG Island Region</a>
-		* <a href="#Analyzing_the_Alleged_CpG_Promoter_Region">Analyzing the Alleged CpG Promoter Region</a>
+	* **_<a href="#TERT_Promoter_Compaction_is_Found_in_ALT">TERT Promoter Compaction is Found in ALT</a>_**
+		* **_<a href="#Getting_The_hTERT_Sequence">Getting The hTERT Sequence</a>_**
+		* **_<a href="#Obtaining_hTERT_WITH_the_CpG_Island_Region">Obtaining hTERT WITH the CpG Island Region</a>_**
+		* **_<a href="#Analyzing_the_Alleged_CpG_Promoter_Region">Analyzing the Alleged CpG Promoter Region</a>_**
 	* <a href="#STN1_Mutation_Triggers_ALT_in_Yeast">STN1 Mutation Triggers ALT in Yeast</a>
 		* <a href="#Obtaining_STN1_From_3_Yeast_Organisms">Obtaining STN1 From 3 Yeast Organisms</a>
 		* <a href="#Attempt_to_Replicate_Lyer_2005_Figure_4">Attempt to Replicate Lyer 2005 Figure 4</a>
