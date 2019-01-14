@@ -49,7 +49,7 @@ The lack of ALT research progress was what inspired me to spend five years worki
 		* <a href="#Obtaining_STN1_From_3_Yeast_Organisms">Obtaining STN1 From 3 Yeast Organisms</a>
 		* <a href="#Attempt_to_Replicate_Lyer_2005_Figure_4">Attempt to Replicate Lyer 2005 Figure 4</a>
 		* <a href="#Aligning_Human_Yeast_and_Frog_STN1">Aligning Human, Yeast, and Frog STN1</a>
-* Ever Shorter Telomeres <a href="#Ever_Shorter_Telomeres">Ever Shorter Telomeres</a>
+* <a href="#Ever_Shorter_Telomeres">Ever Shorter Telomeres</a>
 	* <a href="#Mild_Telomerase_Activity">Mild Telomerase Acitivty Can Keep Cancers Dividing Long Enough for Metastasis</a>
 	* <a href="#Long_Initial_Telomere_Lengths">Long Initial Telomere Lengths Can Keep Cancers Dividing Long Enough for Metastasis</a>
 * <a href="#Conclusion">Conclusion</a>
